@@ -1,0 +1,9 @@
+$backgroundColor: #ffffff;
+$bodyColor: #000000;
+$bodyFont: "Open Sans", sans-serif;
+
+body {
+  background: $backgroundColor;
+  color: $bodyColor;
+  font-family: $bodyFont;
+}

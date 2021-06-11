@@ -1,0 +1,23 @@
+# global data
+title: "Junnv bizarre adventure"
+description: >
+  Blog to rec'rd mine adventure through life and w'rk as
+  automotive embedd'd software blacksmith. Shall writeth about things yond i hath used
+  to w'rk 'r int'rest'd in.
+url: "http://localhost:4000" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "" # the subpath of your site, e.g. /blog
+author: Nguyen van Dung
+avatar: /assets/img/ava/avatar.jpg
+social:
+  name: 
+  email: nvdung694@gmail.com
+  twitter:
+  facebook: dugx9
+  github: nvdungx
+  linked: 
+timezone : Asia/Ho_Chi_Minh
+# build setting
+markdown: kramdown
+sass:
+  sass_dir: _sass
+include: ['_pages'] # customize pages folder
