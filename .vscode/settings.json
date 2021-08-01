@@ -1,0 +1,12 @@
+{
+    "emmet.includeLanguages":
+    {
+        "liquid": "html",
+        "jekyll": "html",
+        "scss": "css"
+    },
+    "files.trimTrailingWhitespace": false,
+    "cSpell.words": [
+        "Junnv"
+    ],
+}

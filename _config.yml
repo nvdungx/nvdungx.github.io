@@ -6,7 +6,7 @@ description: >
   to w'rk 'r int'rest'd in.
 tagline: "let's run.."
 url: https://nvdungx.github.io
-paginate: 1
+paginate: 5
 baseurl: ""
 permalink: :title/
 
@@ -22,7 +22,6 @@ plugins:
 
 # Optimize Jekyll
 exclude:
-  - .editorconfig
   - .git
   - .jekyll-cache
   - Gemfile
@@ -37,13 +36,25 @@ sass:
 # Options
 
 # Replace this value and uncomment to enable Google Analytics tracking
-# ga_analytics: UA-000000-0
+ga_analytics: G-XW85PW7JTE
 
 # Specify the author for blog posts
 author:
   name: Nguyen van Dung
   url: https://twitter.com/dugx9
   email: nvdung694@gmail.com
+
+avatar: /assets/img/pikafe.jpg
+
+social:
+  name: Dung
+  email: nvdung694@gmail.com
+  twitter: dugx9
+  facebook: dugx9
+  github: nvdungx
+  linkedin: dugx9
+
+timezone : Asia/Ho_Chi_Minh
 
 # Custom vars
 version: 1.0.0

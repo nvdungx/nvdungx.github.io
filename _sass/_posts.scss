@@ -1,23 +1,31 @@
 // Posts and pages
+.img-middle {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
 
 figure {
-    margin-right:   0;
-    margin-left:    0;
+    margin-left: auto;
+    margin-right: auto;
     margin-top:     1.5em;
     margin-bottom:  2em;
-    
+    width: 100%;
     & > :nth-last-child(2) {
         margin-bottom: 0;
-        
+        margin-left: auto;
+        margin-right: auto;
         & > :last-child {
-            margin-bottom: 0;
+          margin-left: auto;
+          margin-right: auto;
+          margin-bottom: 0;
         }
     }
     figcaption {
         color: #878787;
         margin-top: 0.3em;
         font-size:  0.8em;
-		text-align: center
+        text-align: center
     }
     &.screenshot {
         margin-left:    0;
@@ -198,4 +206,8 @@ figure {
 	    }
     }
   }
+}
+img {
+  margin-left: auto;
+  margin-right: auto;
 }

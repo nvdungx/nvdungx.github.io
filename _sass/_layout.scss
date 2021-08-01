@@ -1,7 +1,7 @@
 // Site structure
 
 .container {
-  max-width: 38rem;
+  max-width: 50rem;
   padding-left:  1.5rem;
   padding-right: 1.5rem;
   margin-left:  auto;
@@ -9,8 +9,11 @@
 }
 
 footer {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  border-top: 1px #252525 solid;
+  padding: 2.5rem 0;
   text-align: center;
   font-size: 90%;
+  p {
+    margin: auto;
+  }
 }

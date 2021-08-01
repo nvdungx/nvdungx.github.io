@@ -18,7 +18,7 @@ term
 If you want to reference a footnote it appears like this[^1] in a sentence.
 
 <figure>
-  <img src="/assets/test.png" alt="Testing">
+  <img src="/assets/img/bon-fire-bro.jpg" alt="Testing">
   <figcaption>Here is an image with a caption below it.</figcaption>
 </figure>
 
