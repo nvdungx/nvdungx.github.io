@@ -1,0 +1,63 @@
+---
+layout: default
+title: Home
+---
+
+<div class="posts">
+  {% for post in paginator.posts %}
+  <article class="post">
+    <h1 class="post-title">
+      <a
+        href="{% if post.link %}{{ post.link }}{% else %}{{ post.url }}{% endif %}">{{ post.title | smartify }}</a>{% if post.link %}<span
+        class="link-arrow"> &rarr;</span>{% endif %}
+    </h1>
+    <time datetime="{{ post.date | date_to_xmlschema }}"
+      class="post-date">{{ post.date | date_to_long_string: "ordinal", "US" }}
+      {% if post %}
+      {% assign categories = post.categories %}
+      {% else %}
+      {% assign categories = page.categories %}
+      {% endif %}
+      {% if categories.size > 0 %}in{% endif %}
+      {% for category in categories %}
+      <a
+        href="{{site.baseurl}}/categories/#{{category|slugize}}">{{category}}</a>{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+      {%- if post.last_modified_at -%}
+      <br><i>Last updated on: {{ post.last_modified_at | date_to_long_string: "ordinal", "US" }}</i>
+      {%- endif -%}
+    </time>
+
+    <span class="permalink">
+      {% if post.link %}
+      <a href="{{ post.url }}">Permalink</a>
+      {% endif %}
+    </span>
+
+    {{ post.content | smartify }}
+
+    <br>
+    <div class="tag-list">
+      {% if post %}
+      {% assign tags = post.tags %}
+      {% else %}
+      {% assign tags = page.tags %}
+      {% endif %}
+      {% for tag in tags %}
+      <a href="{{site.baseurl}}/tags/#{{tag|slugize}}">#{{tag}}</a>
+      {% unless forloop.last %}&nbsp;{% endunless %}
+      {% endfor %}
+    </div>
+
+  </article>
+  {% endfor %}
+</div>
+
+<div class="PageNavigation">
+  {% if paginator.next_page %}
+  <a class="prev" href="{{ paginator.next_page_path | prepend: site.baseurl }}">← Older</a>
+  {% endif %}
+  {% if paginator.previous_page %}
+  <a class="next" href="{{ paginator.previous_page_path | prepend: site.baseurl }}">Newer →</a>
+  {% endif %}
+</div>
