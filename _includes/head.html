@@ -38,4 +38,19 @@
 
   <link rel="stylesheet" href="{{ site.baseurl }}/styles.css">
   {% seo title=false %}
+
+  <!-- GA -->
+  {% if site.ga_analytics %}
+  <script defer src="https://www.googletagmanager.com/gtag/js?id={{ site.ga_analytics }}"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+  
+      gtag('js', new Date());
+      gtag('config', '{{ site.ga_analytics }}');
+    });
+  </script>
+  {% endif %}
+
 </head>
