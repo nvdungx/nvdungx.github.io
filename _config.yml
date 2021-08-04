@@ -33,6 +33,7 @@ sass:
   sass_dir: _sass
   style: :compressed
 
+include: ['_pages'] # customize pages folder
 # Options
 
 # Replace this value and uncomment to enable Google Analytics tracking

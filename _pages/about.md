@@ -1,5 +1,6 @@
 ---
 layout: page
+permalink: /about/
 title: About
 ---
 <small>About me: a embedded software engineer. Had been working in automotive domain for about 4.5 years. <br>

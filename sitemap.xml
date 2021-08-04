@@ -1,29 +1,34 @@
 ---
 layout: null
 ---
-
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   {% for post in site.posts %}
-    {% unless post.published == false %}    
-    <url>
-      <loc>{{ site.url }}{{ post.url }}</loc>
-      <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
-      <changefreq>weekly</changefreq>
-      <priority>0.5</priority>
-    </url>
-    {% endunless %}
+  {% unless post.published == false %}
+  <url>
+    <loc>{{ site.url }}{{ post.url }}</loc>
+    <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  {% endunless %}
   {% endfor %}
-  
-    {% for page in site.pages %}
+  {% for page in site.html_pages %}
+  {% if page.url != "/404.html" %}
   <url>
     <loc>{{ site.url }}{{ page.url | remove: "index.html" }}</loc>
     {% if page.date %}
-      <lastmod>{{ page.date | date_to_xmlschema }}</lastmod>
+    <lastmod>{{ page.date | date_to_xmlschema }}</lastmod>
     {% else %}
-      <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
     {% endif %}
     <changefreq>weekly</changefreq>
     <priority>0.3</priority>
   </url>
+  {% endif %}
   {% endfor %}
 </urlset>

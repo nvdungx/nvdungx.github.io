@@ -9,39 +9,35 @@ last_modified_at: 2021-08-01
 
 # I. C++ project with VSCode
 
-  There are multiple ways of creating C++ project. You could chose to go with
+  There are multiple ways of creating C++ project. You could choose to go with
  heavy lifting IDE(Microsoft Visual Studio, Eclipse, Code::Blocks, CLion,...),
-or just go with plain notepad++, compiler and a console.  
-  But all of these IDE required you to install additional software on your PC
- and the text editor and compiler make it hard for you when you need to
- debug your program.  
-Then you may want to start with VsCode, a perfect fit between above options,
- simple but has enough extension for your needs.
+or go with plain notepad++, compiler, and a console.  
+  But all of these IDE required you to install additional software on your PC, and the text editor, compiler combo make it hard when debugging your program.  
+Then you may want to start with VsCode, a perfect fit between two options above,
+ simple but has enough extension for your needs, and you can use it for different programming languages.
 
 #### Let's start
 
 ### 1. Target system
 
-As mention above, vscode is nothing more than just a text editor with a lot of
- extensions. So to build your C/C++ program you still need to provide the compiler.
-The compiler and where and how to install it.
+As mention above, vscode is a code editor with a lot of powerful extensions.
+ But at the core, it's still a text editor, and to build your C/C++ program, you still need to provide the compiler.  
+The compiler, where and how to install it.
 1. Windows
     - [You can get MS visual studio code compiler cl here, it's come with IDE though](https://visualstudio.microsoft.com/vs/features/cplusplus/)
     - [Or you can get MingGW-g++, it's pretty old but yeah](http://mingw-w64.org/doku.php/download)
 2. Linux or Windows Subsystem for Linux
-    - Should come with pre-install gnu-g++, you could test with type `g++ --version` to check. If it's not installed, then `sudo apt install g++` should done the job
+    - Should come with pre-install gnu-g++, you could test with type `g++ --version` to check. If it's not installed, then `sudo apt install g++` should do the job
 
 ### 2. VsCode extensions
-There are a lot to extension, which support C/C++ development on vscode. But to
-keep it simple we normally go with below ones.
+There is a lot of extensions, which support C/C++ development on vscode. But to keep it simple, we usually go with one below.
 <figure>
   <img src="/assets/img/blogs/2021_08_01/extension_suggest.png" alt="suggestion extension for C++">
   <figcaption>Ctrl + Shift + X, search for "C++" and you get everything</figcaption>
 </figure>
 
 ### 3. Let's build and debug it
-Alright after you get all the extension and compiler in place, let's create a 
-simple C++ program and try to build it.
+Alright, after you get all the extensions and compiler in place, let's create a simple C++ program and try to build it.
 - Create a folder for your project, open vscode then **[Ctrl + k + o]** to open your project folder.
 - Create a main.cpp and input your sample code.
 {% highlight c++ %}
@@ -302,12 +298,12 @@ OK, now **Ctrl + F5**, it shall build your project and lunch debug mode.
 </figure>
 Nice, now you can update your project, create additional modules, add external libraries, etc.
 Of course, you have to update the **CMakeLists.txt** correspondingly with the changes of project.
-We will have a CMake topic in near future.  
+We will have a CMake topic in the near future.  
 VSCode remote extension is pretty convenience when you want to create/build your project in remote machine(raspberry,...).
 You can just setup a raspberry with ssh enable and it's good to go. No need for additional keyboard, mouse, monitor or using ssh with CLI.
 
 #### Remote and debug?
-When your program required su to run then normal debug will not work. Here is a work around.  
+When your program required su to run then normal debug will not work. Here is a workaround.  
 `cd /usr/bin`  
 `sudo mv gdb gdb_origin`  
 `sudo vim gdb`  
@@ -317,4 +313,4 @@ Input:
 sudo gdb_origin $@
 {% endhighlight %}
 `sudo chmod 0755 gdb`  
-Now you able to debug your program as su.
+Now you are able to debug your program as su.
