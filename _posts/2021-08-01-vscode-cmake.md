@@ -2,7 +2,7 @@
 layout: post
 title: C/C++ project with vscode, CMake
 date: 2021-08-01 00:00:00
-categories: [Programming]
+categories: [programming]
 tags: [C++, vscode, beginner]
 last_modified_at: 2021-08-01
 ---
@@ -286,7 +286,6 @@ Create a file **settings.json** in **.vscode** folder and input below content.
         "stopAtEntry": true,        # debug stop at entry of main
         "args": ["a", "b", "c"],    # we push 3 input args here
         "MIMode": "gdb",
-        "miDebuggerPath": "/usr/bin/gdb",
         "externalConsole": false,
     }
 }

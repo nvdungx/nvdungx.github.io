@@ -3,7 +3,7 @@ layout: page
 permalink: /about/
 title: About
 ---
-<small>About me: a embedded software engineer. Had been working in automotive domain for about 4.5 years. <br>
+<small>About me: an embedded software engineer. Had been working in automotive domain for about 5 years. <br>
           Contact info: nvdung694@gmail.com
 </small>
 <figure>
