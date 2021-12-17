@@ -74,7 +74,7 @@ typedef enum {
 // create corresponding enum string map with easier syntax
 const EnumMap VERDICT_STR({"NONE", "PASS", "FAIL"});
 // use it
->> std::cout << VERDICT_VAL[pass] << std::endl;
+>> std::cout << VERDICT_STR[pass] << std::endl;
 {% endhighlight %}
 
 How about when you have a enumerate with its value does not span continuously,
