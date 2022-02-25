@@ -220,7 +220,11 @@ There shall be:
 
 <u><b>Attributes of Faults code(Diagnostic Trouble Code - DTC):</b></u>  
 ![DTC](/assets/img/blogs/2021_12_17/7_Fault_DTC.png)
-TBD: explain DTC format
+A DTC defines unique identifier mapped to diagnostic event(of DEM) and can be interrogated later by Tester(through DCM).
+- The first byte shall address the location of fault, basically the location of ECU in vehicle(e.g. Powertrain, Body,..) and whether this DTC is defined by ISO spec or manufacturer.
+- The second byte show the failed component/system. 
+- The last byte show the failure category and subtype, detailed what kind of fault had occured.
+
 
 <u><b>DTC Status Byte:</b></u>  
 ![DTC](/assets/img/blogs/2021_12_17/7_Fault_DTC_2.png)
@@ -237,7 +241,7 @@ TBD: explain DTC format
 * uncompleted test counters, counts numbers of driving cycles since the test was latest completed (i.e. since the test reported "testPassed" or "testFailed").  
 
 <u><b>To retrieving DTC information, we use UDS service 0x19:</b></u>  
-TBD: list of sub-function of service 0x19, which is used for filtering/get DTC data
+![DTC](/assets/img/blogs/2021_12_17/7_DTC_19_subfunctions.png)
 
 ## 8. Flashing (programming)
 
