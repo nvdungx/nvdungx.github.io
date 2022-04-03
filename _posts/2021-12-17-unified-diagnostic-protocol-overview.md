@@ -193,11 +193,14 @@ The set of diagnostic services and diagnostic functionality in a non-default dia
 
 ![Security & Authenticate](/assets/img/blogs/2021_12_17/6_security_access_authentication.png)
 **Service 0x27:** Tester unlock ECU access using seeding key process > access to protected functionality like specific routine related to memory modification, programming.  
-**Service 0x29**(new for UDS ver2020): Tester authenticate its role by using certificate base PKI > required to connect/access to OEM server to get certificate.  
+**Service 0x29**(new for UDS ver2020): Tester authenticate its role by using certificate base PKI > might required to connect/access to OEM server to get certificate.  
 
 ### 6.1 Security Access operation
 **Services Security Access(0x27)** provide a means to access data and/or diagnostic services, which have restricted access for security, emissions, or safety reasons. 
-Improper routines or data downloaded into a server could potentially damage the electronics or other vehicle components or risk the vehicle’s compliance to emission, safety, or security standards. The security concept uses a seed and key relationship.  
+Improper routines or data downloaded into a server could potentially damage the electronics or other vehicle components or risk the vehicle’s compliance to emission, safety, or security standards. The security concept uses a seed and key relationship(asymmetric).  
+Another thing to remember, with AUTOSAR, there is only one Security Access Level state machine independent of how the Tester communicates with the ECU (i.e. ECU security access is opened with CAN connection then another Tester can have directly security access via DoIP connection without have to re-request security access).
+
+
 ![Security Access](/assets/img/blogs/2021_12_17/6_security_access_2.png)
 **'requestSeed'** SubFunction parameter value: odd value  
 **'sendKey'** SubFunction parameter value: equal requestSeed value + 1 &#10233; even value  
@@ -205,7 +208,11 @@ Improper routines or data downloaded into a server could potentially damage the 
 ### 6.2 Authentication
 
 ![Authentication](/assets/img/blogs/2021_12_17/6_security_access_authentication_3.png)
-TBD: brief description on authentication service
+The purpose of this service is the same as Security Access service(0x27), authorization via user roles(supplier, development, after sales,...) instead of level as 0x27, and Authentication service(0x29) security concept either base on:  
+- PKI certificate exchange and use asymmetric cryptography (Introduced in AUTOSAR 4.4.0).
+- Challenge-response without PKI and asymmetric or symmetric cryptography (Out of scope of AUTOSAR, required to be custom implemented in DCM).
+- With AUTOSAR, authentication state machine per physical connection.
+
 
 ## 7. Fault & DTC
 If any fault will happen in during operation of the ECU, it will store this fault code, fault status, snapshot data and some extended data record which will help the diagnostic engineer to know the root cause easily and repair the vehicle. 
@@ -244,6 +251,7 @@ A DTC defines unique identifier mapped to diagnostic event(of DEM) and can be in
 ![DTC](/assets/img/blogs/2021_12_17/7_DTC_19_subfunctions.png)
 
 ## 8. Flashing (programming)
-
+TBD
 
 ## 9. Calibration (coding)
+TBD
