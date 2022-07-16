@@ -4,11 +4,11 @@ layout: default
 
 <article class="post">
   {% if page.link %}
-  <h1 class="post-title"><a href="{{ page.link }}">
+  <h1 class="post-title-2"><a href="{{ page.link }}">
       {{ page.title | smartify }} <span class="link-arrow">&rarr;</span></a>
   </h1>
   {% else %}
-  <h1 class="post-title">{{ page.title | smartify }}</h1>
+  <h1 class="post-title-2">{{ page.title | smartify }}</h1>
   {% endif %}
 
   <time datetime="{{ page.date | date_to_xmlschema }}"
@@ -27,9 +27,8 @@ layout: default
     <br><i>Last updated on: {{ page.last_modified_at | date_to_long_string: "ordinal", "US" }}</i>
     {%- endif -%}
   </time>{% if page.link %}<span class="external-link">External Link</span>{% endif %}
-
+  <hr/>
   {{ content | smartify }}
-
   <br>
   <div class="tag-list">
     {% if post %}

@@ -4,7 +4,7 @@ title: C++ enumerate
 date: 2021-08-03 12:00:00
 categories: [programming]
 tags: [C++, beginner]
-last_modified_at: 2021-08-03
+last_modified_at: 2021-12-16
 ---
 
 ## Mapping enumerate value to a string

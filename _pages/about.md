@@ -3,18 +3,24 @@ layout: page
 permalink: /about/
 title: About
 ---
-**About me:** Love football both playing and watching, riding motorcycle, admiring beautiful sceneries around my country. Had been working as embedded engineer in automotive domain for over 5 years.  
+**Purpose of this blog:** the best ways to really understand something is to explain and share it with others.
 
-**Education:** graduated from Ho Chi Minh city Bach Khoa University in Jan-2017. I studied electronic and electrical engineering and major in Automation & Control Engineering.  
-During my time at the university, even though most of my courses were focused on factory automation(SCADA, PLC, Industrial Networking), my interest shifted to embedded domain(robotic).
-With foundational knowledge in Control engineering, some online self-studied embedded, robotic courses and a lot of reading, googling, I was able to finish a project and thesis on:
+**About me:** Love football both playing and watching, riding motorcycle, admiring beautiful sceneries around my country. Had been working as embedded engineer in automotive domain for over 6 years.  
+
+**Education:** graduated from [Ho Chi Minh city Bach Khoa University](https://hcmut.edu.vn/en) in Jan-2017. I studied electronic and electrical engineering and major in Automation & Control Engineering.  
 1. [PID Motor Control](https://link)
 2. [Delta Robot](https://link)  
 
 **Profession Experiences:**
-1. AUTOSAR MCAL Software Engineer (RCAR Gen3 SOC)
-2. AUTOSAR ASW Software Developer (Commercial Vehicle ECU - Signal Actuation Module)
-3. Senior Embedded Software Engineer (EV AC&DC Charging Station and Passenger EV Power Electronic ECU - Charger & Power Distribution Unit)  
+1. AUTOSAR MCAL Software Engineer (Renesas RCAR Gen3 SOC)  
+2. AUTOSAR ASW Software Developer (Commercial Vehicle ECU - Signal Actuation Module)  
+3. Senior Embedded Software Engineer (Passenger EV Power Electronic ECU - OnBoard Charger, DCDC Converter & Power Distribution Unit and EV AC&DC Charging Station)  
+4. Senior Embedded Software Engineer (Digital Matrix Light ECU, Audio Amplifier ECU, BSW Communication Charge stack)
+
+**Projects:**
+1. [STM32F407 AUTOSAR 4.4.0 MCAL](https://github.com/)
+2. [ISO15118 compliance test suite](https://github.com/)
+3. [OCPP compliance test suite](https://github.com/)
 
 **Contact info:** [mail](mailto:nvdung694@gmail.com) - [linkedin](https://www.linkedin.com/in/dugx9/)  
 

@@ -16,6 +16,7 @@ html {
   font-family: $root-font-family;
   font-size: $root-font-size;
   line-height: $root-line-height;
+  word-spacing: 0.15rem;
 
   @media (min-width: $large-breakpoint) {
     font-size: $large-font-size;
@@ -51,6 +52,7 @@ a {
   }
 
   strong {
+    font-weight: bold;
     color: inherit;
   }
   

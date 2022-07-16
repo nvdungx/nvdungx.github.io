@@ -3,6 +3,9 @@ layout: page
 title: Styles
 ---
 
+[Special symbols](https://unicode-table.com/en/):
+` `, `«`, `»`, `µ`, `®`, `©`, `÷`, `➣`, `⟹`
+
 <p class="message">
   <small>This page serves to document the style of various elements used in the site's design.</small>
 </p>

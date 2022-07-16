@@ -96,6 +96,15 @@ figure {
   margin-top: 0;
 }
 
+.post-title-2,
+.post-title-2 a {
+  color: $body-color;
+  font-size: 2rem;
+@media (prefers-color-scheme: dark) {
+  color: $body-color-dark;
+  }
+}
+
 // Meta data line below post title
 .post-date {
   display: block;

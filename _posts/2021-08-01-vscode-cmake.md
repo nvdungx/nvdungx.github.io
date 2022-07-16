@@ -4,7 +4,7 @@ title: C/C++ project with vscode, CMake
 date: 2021-08-01 00:00:00
 categories: [programming]
 tags: [C++, vscode, beginner]
-last_modified_at: 2021-08-01
+last_modified_at: 2021-09-19
 ---
 
 # I. C++ project with VSCode
