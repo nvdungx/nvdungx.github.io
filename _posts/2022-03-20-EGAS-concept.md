@@ -152,14 +152,20 @@ Then apply these failures with possible operating condition, we get the output r
 
 ### III.3 Functional Safety Concept (FSC/FSR)
 
+> TBD
 
 ### III.4 Technical Safety Concept (TSC/TSR)
+
+> TBD
 
 ![alt](/assets/img/blogs/2022_03_04/EGAS-functional_safety_concept.png)
 ![alt](/assets/img/blogs/2022_03_04/EGAS-functional_safety_reqs.png)
 ![alt](/assets/img/blogs/2022_03_04/EGAS-functional_safety_reqs_allocation.png)
 
-
 ### III.5 System Reactions (Fault Handling - Safe State)
 
+> TBD
+
 # IV. Conclusion
+
+> TBD

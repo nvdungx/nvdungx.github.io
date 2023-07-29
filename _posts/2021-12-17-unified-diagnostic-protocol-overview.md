@@ -29,7 +29,7 @@ And diagnostic services are used in various use cases throughout lifetime of veh
 * After sale servicing  
 
 &#10233; For software development, diagnostic feature is mostly **used for testing and validation**.  
-> `>` Diagnostic function shall be **verified to be conformance** with a specific standards(e.g. using Vector CANDiVa to create a conformance test suites and verify diagnostic function of the target ECU is fulfilled **ISO14229** standards), and after that during software qualification or system verification & validation phase, diagnostic function shall be **used as a medium to verify operation of other features**).  
+> `>` Diagnostic function shall be **verified to be conformance** with a specific standards(e.g. using Vector CANDiVa to create a conformance test suites and verify diagnostic function of the target ECU is fulfilled **ISO14229** standards), and after that during software qualification or system verification & validation phase, diagnostic function shall be **used as a medium to verify operation of other features**.  
 
 Beside diagnostic services provide for the external tester tool(OFF Board), vehicle also carry out self diagnostic during its operation(ON Board).  
 <figure>
@@ -112,15 +112,16 @@ Depending on each project, some only support CAN message with 11 bit identifier(
 
 | Scheme                                | Description          | Example |
 |:-------------------------------------:|-------------| -----|
-| Normal                                | CAN ID contains source and target address. 2 CAN IDs for each ECU (send/receive). | 0x78A<br>0x70A |
-| Extended                              | CAN ID contains source address, first data (payload) byte contains target address.<br>1 CAN ID for all requests of all ECUs: base address + source address.<br>1 CAN ID per ECU for the response. | 11-bit: 0xNss, Data: 0xtt....<br>29-bit: 0xNnNnNnss, Data: 0xtt.... |
-| Normal Fixed (29-bit CAN IDs only)    | CAN ID contains source and target address. 2 CAN IDs for each ECU (send/receive). | 0x0CDAttss (physical addressing)<br>0x0CDBttss (functional addressing) |
-| Mixed Addressing (29-bit CAN IDs only)| For ECUs in different subnets: CAN ID contains the local addresses, of which one is the gateway address;<br>first data byte contains the remote address (local address in the other subnet, also called Address Extension AE). | 0x0CEAggss, Data: 0xtt... (physical addressing)<br>0x0CDAggss, Data: 0xtt... (functional addressing) |
+| Normal                                | CAN ID contains source and target address. 2 CAN IDs for each ECU (diag request/response). | phys request: 0x78A<br> phys response: 0x70A |
+| Extended                              | CAN ID contains source address, first data (payload) byte contains target address.<br>1 CAN ID for diag request of all ECUs: base address + source address(tester), target of specific ECU is located in payload data.<br>1 CAN ID per ECU for the response, ECU ID is in CAN ID and testerID is in payload data. | 11-bit: 0xNss, Data: 0xtt....<br>29-bit: 0xNnNnNnss, Data: 0xtt.... |
+| Normal Fixed (29-bit CAN IDs only)    | CAN ID contains source and target address. 2 CAN IDs for each ECU (diag request/response). | format: 0x03FFttss<br>phys request: 0x03FF0102<br>phys response: 0x03FF0201<br>testerID: 0x01, ECU: 0x02 and 0x03FF is base for physical addressing|
+| Mixed Addressing (29-bit CAN IDs only)| For ECUs in different subnets: CAN ID contains the local addresses, of which one is the gateway address;<br>first data byte contains the remote address (local address in the other subnet, also called Address Extension AE). | 0x0CEAggss, Data: 0xtt... (0x0CEA is base for rphysical addressing)<br>0x0CDAggss, Data: 0xtt... (0x0CDA is base for functional addressing) |
 
 > gg: gateway address  
 > ss: source address  
 > tt: target address  
 > Nn: any  
+> Detail about addressing scheme can be read in ISO 15765-2.
 
 ### 3.3 Message timing
   For session layer of UDS, there are no special operation beside timing of handling request/response during communication.
@@ -228,7 +229,7 @@ The set of diagnostic services and diagnostic functionality in a non-default dia
 
 ### 6.1 Security Access operation
 **Services Security Access(0x27)** provide a means to access data and/or diagnostic services, which have restricted access for security, emissions, or safety reasons. 
-Improper routines or data downloaded into a server could potentially damage the electronics or other vehicle components or risk the vehicle’s compliance to emission, safety, or security standards. The security concept uses a seed and key relationship(asymmetric).  
+Improper routines or data downloaded into a server could potentially damage the electronics or other vehicle components or risk the vehicle’s compliance to emission, safety, or security standards. The **security concept uses a seed and key relationship(asymmetric)**.  
 Another thing to remember, with AUTOSAR, there is only one Security Access Level state machine independent of how the Tester communicates with the ECU (i.e. ECU security access is opened with CAN connection then another Tester can have directly security access via DoIP connection without have to re-request security access).
 
 
@@ -253,7 +254,7 @@ If any fault will happen in during operation of the ECU, it will store this faul
   <figcaption>Fault Memories</figcaption>
 </figure>
 <u><b>Fault memory:</b></u> storage location for fault-related information during ECU operation and later to be read by Tester during OFF Board diagnostic operation.  
-There shall be:  '
+There shall be:  
 ⮚ Primary fault memory for all the UDS code and legislated fault of OBD(ECU has emission-related feature).  
 ⮚ Additional UDS User defined fault code (optional during development process and not for production).  
 
@@ -264,6 +265,8 @@ A DTC defines unique identifier mapped to diagnostic event(of DEM) and can be in
 - The second byte show the failed component/system. 
 - The last byte show the failure category and subtype, detailed what kind of fault had occurred.
 
+
+So with each logical DTC number following data shall be associated to it:  
 
 <u><b>DTC Status Byte:</b></u>  
 ![DTC](/assets/img/blogs/2021_12_17/7_Fault_DTC_2.png)
@@ -279,11 +282,16 @@ A DTC defines unique identifier mapped to diagnostic event(of DEM) and can be in
 * test failed counter, counts number of reported "testFailed" and possible other counters if the validation is performed in several steps.  
 * uncompleted test counters, counts numbers of driving cycles since the test was latest completed (i.e. since the test reported "testPassed" or "testFailed").  
 
+<figure>
+  <img src="/assets/img/blogs/2021_12_17/7_DTCs.png" alt="Fault DTC, Diag services config">
+  <figcaption>Vector CANDelaStudio, Fault Memory configuration</figcaption>
+</figure>
+
 <u><b>To retrieving DTC information, we use UDS service 0x19:</b></u>  
 ![DTC](/assets/img/blogs/2021_12_17/7_DTC_19_subfunctions.png)
 
 ### 7.2. Data Identifier
-Logical data storage location
+Data Identifier(DID) is logical number used to address specific data storage location.
 
 
 ## 8. Flashing (reprogramming)

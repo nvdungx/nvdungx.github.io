@@ -11,6 +11,7 @@ last_modified_at: 2022-12-28
 - Simulation network nodes
 - Measurement, analysis components
 - Testing modules
+> All of the images in this article are captured from Vector CANoe tool and their example projects.
 <figure>
   <img src="/assets/img/blogs/2022_10_12/test_simulation.png" alt="stimulation node">
   <figcaption>simulation node in simulation window</figcaption>
@@ -202,7 +203,7 @@ for (long msg_id: gSomeIP_UDPList)
 enum bool {TRUE = 1, FALSE = 0}; // define enum type
 enum bool result; // declare variable of type `enum bool`
 
-// CANoe object
+// CANoe classes and objects are predefined
 diagRespone * req;
 diagRequest DoorFL.FaultMemory_Clear reqClear; // ECU_name.DiagService_name << this reference from .cdd, which is imported to CANoe configuration. 
 message 0x701 msg;
@@ -210,9 +211,10 @@ message 0x701 msg;
 {% endhighlight %}
 ![variable object](/assets/img/blogs/2022_10_12/variable.png)
 > - Struct, array, associative field, object, when used as function parameter will be passed as reference by default.
-> - Other primitive data type has to used `&` to get address and `*` to mark that it shall be passed as reference. E.g. `void Function(byte& ref); Function(var);`
+> - Other primitive data type has to used `&` to mark that it shall be passed as reference. E.g. `void Function(byte& ref); Function(var);`
 
 - `sysvar` or `System Variables` are defined under tab Environment/System Variables, it can be accessed everywhere in CANoe configuration. We define **user sysvar to shared, route data around testing environment between test nodes, simulated nodes, measurement nodes, CANoe panel**. CANoe also provide sysvar so test nodes can interact with other component in a testing environment such as VT System.
+![syvar2](/assets/img/blogs/2022_10_12/sysvar2.png)
 {% highlight C %}
 on sysvar DoorFL::RewritableData.MirrorSettings.Availability
 {
@@ -225,25 +227,79 @@ on sysvar_update DoorFR::AuthenticationStatus
 // some of the ways to manipulate sysvar value
 @sysvar::DoorFL::AuthenticationStatus = 1;
 authenStatus = @sysvar::DoorFL::AuthenticationStatus;
-testResetSysVarValue(sysvar::DoorFL::AuthenticationStatus);
+
+testResetSysVarValue(sysvar::DoorFL::AuthenticationStatus); // signal as function parameter shall be ref to without `@` character
 testWaitForSysVar(sysvar::DoorFL::AuthenticationStatus, 1000);
 dwordValue = sysGetVariableDWord(sysvar::DoorFL::InternalData);
 sysSetVariableDWord(sysvar::DoorFL::InternalData, 0x022);
 {% endhighlight %}
 ![sysvar](/assets/img/blogs/2022_10_12/sysvar.png)
 
-- `signal`
+- `signal` representation of the bus signals. Access to the signals is carried out with the syntax `$signal`, in addition you can specify the read/write operation either be raw or phys `$signal.raw`, `$signal.phys`
+- keep in mind, signal value does not change immediately, only after the signal is being transmitted again on the network then it can be said to be updated, and read out value is the last value transmitted on the network.
 {% highlight C %}
 
+setSignal($EngineSpeed, 200);
+// after set signal value, wait for it to be updated
+testWaitForSignalUpdate($EngineSpeed, 1000);
+
+var1 = readSignal($EngineSpeed);
+var = $EngineSpeed.phys;
+
+// wait for signal change to certain condition
+testWaitForSignalChange($EngineSpeed, 1000);
+testWaitForSignalInRange($EngineSpeed, 300, 400, 1000)
+testWaitForSignalMatch($EngineSpeed, 500, 1000);
+
+// signal as function parameter
+foo ( signal * s )
+{
+   write("Signal value: %g", $s);
+}
+
+// similar to sysvar, you can also define special event procedures that are called as soon as a signal changes
+on signal LightSwitch::OnOff // or on signal_change LightSwitch::OnOff
+{
+  v1 = this.raw;
+  v2 = $LightSwitch::OnOff.raw;
+  // v1 and v2 are the same, value of LightSwitch::OnOff signal in this function can be get by using `this`
+}
+on signal_update signalname // called with every signal reception
+on signal ( signalname1 | signalname2 | ...) // handling several signals
 {% endhighlight %}
 
 ### I.3 `on <event>`
 <figure>
   <img src="/assets/img/blogs/2022_10_12/event.png" alt="CAPL events">
-  <figcaption>CAPL event</figcaption>
+  <figcaption>CAPL event available in CAPL editor</figcaption>
 </figure>
+Except for the testcases, which can be called on test execution, all of the CANoe nodes are operated base on event processing.  
+In a test nodes most of the time, you don't need to define the event handler, because CANoe provide a very well API libraries, that we can use to create a sequential testing operation (e.g. TestWaitFor* API to wait for certain event to occur).  
+But some time, you might need access to a lower layer level of data, which can not be provide by CANoe API or you just want to create a custom procedure to filter event, in that cases define these `on <event>` handle and a notification mechanism(e.g. using sysvar, text event notification) will help you a lot during testing process.
+{% highlight C %}
+// handling event on SimulatedHeadUnit node port in EthernetNetwork bus
+on ethernetPacket ethernetPort::EthernetNetwork::SimulatedHeadUnit.*
+{
+    ip_Endpoint endpoint_src;
+    ip_Endpoint endpoint_des;
+    // filter vlanid 1 for someip, filter udp packet
+    if ((this.GetVlanId() == 1) && this.udp.IsAvailable())
+    {
+        // process further message, store required data and fire text event Event_ServiceDiscovery
+        testSupplyTextEvent("Event_ServiceDiscovery");
+    }
+}
+
+void checkSomeIPSD(void)
+{
+    testWaitForTextEvent("Event_ServiceDiscovery", 5000); // wait for SOMEIP Service discovery event
+    // process data received from `on <event>`
+}
+
+{% endhighlight %}
 
 ### I.4 `functions`
+
 
 ### I.5 `testcases`
 
@@ -252,3 +308,5 @@ sysSetVariableDWord(sysvar::DoorFL::InternalData, 0x022);
 A key difference between CAPL and C or C++ relates to when and how program elements are called. 
 In C, for example, all processing sequences begin with the central start function main(). 
 In CAPL, on the other hand, a program contains an entire assortment of procedures of equal standing, each of which reacts to external events:
+
+# III. Actual Project Example

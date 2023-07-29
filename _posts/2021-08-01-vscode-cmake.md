@@ -12,7 +12,7 @@ last_modified_at: 2021-09-19
   There are multiple ways of creating C++ project. You could choose to go with
  heavy lifting IDE(Microsoft Visual Studio, Eclipse, Code::Blocks, CLion,...),
 or go with plain notepad++, compiler, and a console.  
-  But all of these IDE required you to install additional software on your PC, and the text editor, compiler combo make it hard when debugging your program.  
+  But all of these IDE required you to install additional software on your PC, and the text editor, compiler combo make it hard when it come to debug your program.  
 Then you may want to start with VsCode, a perfect fit between two options above,
  simple but has enough extension for your needs, and you can use it for different programming languages.
 
@@ -24,10 +24,10 @@ As mention above, vscode is a code editor with a lot of powerful extensions.
  But at the core, it's still a text editor, and to build your C/C++ program, you still need to provide the compiler.  
 The compiler, where and how to install it.
 1. Windows
-    - [You can get MS visual studio code compiler cl here, it's come with IDE though](https://visualstudio.microsoft.com/vs/features/cplusplus/)
-    - [Or you can get MingGW-g++, it's pretty old but yeah](http://mingw-w64.org/doku.php/download)
-2. Linux or Windows Subsystem for Linux
-    - Should come with pre-install gnu-g++, you could test with type `g++ --version` to check. If it's not installed, then `sudo apt install g++` should do the job
+    - [You can get MS visual studio code compiler cl here, it's come with IDE though. I think we could install the compiler only, but you have to look around for that option.](https://visualstudio.microsoft.com/vs/features/cplusplus/)
+    - [Or you can get MingGW-g++, it's come along with cgwin(bash like console on window). It's pretty old but work perfect when you want a linux like environment on window](http://mingw-w64.org/doku.php/download)
+2. Linux or Windows Linux Subsystem
+    - On a linux machine or WSL, it should come with pre-install gnu-g++, you could test with type `g++ --version` to check. If it's not installed, then `sudo apt install g++` should do the job
 
 ### 2. VsCode extensions
 There is a lot of extensions, which support C/C++ development on vscode. But to keep it simple, we usually go with one below.
@@ -259,7 +259,7 @@ In the status bar, you should able to see 3 action: Build, Debug, Lunch. Click o
 ![build directory default](/assets/img/blogs/2021_08_01/build_directory.png)
 Let's update the directory: add **src** and **include** folder and provide additional code there.
 ![build directory stable](/assets/img/blogs/2021_08_01/final_dir_structure.png)
-Then update your CMakeLists.txt as following (for more about CMake, please check [CMake Documentation](https://cmake.org/cmake/help/v3.21/)
+Then update your CMakeLists.txt as following (for more about CMake, please check [CMake Documentation](https://cmake.org/cmake/help/v3.21/))
 {% highlight cmake %}
 cmake_minimum_required(VERSION 3.0.0)
 project(sample VERSION 0.1.0)
@@ -298,7 +298,7 @@ OK, now **Ctrl + F5**, it shall build your project and lunch debug mode.
 Nice, now you can update your project, create additional modules, add external libraries, etc.
 Of course, you have to update the **CMakeLists.txt** correspondingly with the changes of project.
 We will have a CMake topic in the near future.  
-VSCode remote extension is pretty convenience when you want to create/build your project in remote machine(raspberry,...).
+Another thing, **VSCode remote extension** is pretty convenience when you want to create/build your project in remote machine(raspberry, beaglebone,...).
 You can just setup a raspberry with ssh enable and it's good to go. No need for additional keyboard, mouse, monitor or using ssh with CLI.
 
 #### Remote and debug?

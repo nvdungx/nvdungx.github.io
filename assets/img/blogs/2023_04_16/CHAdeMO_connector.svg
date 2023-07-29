@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="700" height="700" version="1.1" viewBox="0 0 700 700" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="translate(0 -422.52)">
+  <g>
+   <path d="m113.35 492.52a367 367 0 0 0-36.34 35.297l272.99 272.99 272.95-272.96a367 367 0 0 0-35.777-35.33z" fill="#0b9adc"/>
+   <circle cx="350" cy="772.52" r="325" fill="#9c9a9c" stroke="#0b9adc" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="50"/>
+   <g stroke="#000" stroke-linecap="square" stroke-linejoin="bevel" stroke-width="10">
+    <circle cx="200" cy="772.52" r="117.5" fill="#f50"/>
+    <circle cx="350" cy="587.52" r="117.5" fill="#fff"/>
+    <circle cx="500" cy="772.52" r="117.5" fill="#f50"/>
+    <circle cx="350" cy="957.52" r="117.5" fill="#fff"/>
+   </g>
+  </g>
+  <g fill="none" stroke="#000" stroke-linecap="round" stroke-width="12.5">
+   <path d="m290 647.52 120-120"/>
+   <path d="m290 527.52 120 120"/>
+   <path d="m410 897.52-120 120"/>
+   <path d="m290 897.52 120 120"/>
+  </g>
+  <g fill="#f80">
+   <circle cx="200" cy="772.52" r="40" fill-opacity=".66667"/>
+   <circle cx="500" cy="772.52" r="40" fill-opacity=".66667"/>
+   <g fill-opacity=".33333" stroke="#000" stroke-linecap="round" stroke-linejoin="bevel" stroke-opacity=".33333" stroke-width="2">
+    <circle cx="290" cy="957.52" r="24"/>
+    <circle cx="350" cy="897.52" r="24"/>
+    <circle cx="410" cy="957.52" r="24"/>
+    <circle cx="350" cy="1017.5" r="24"/>
+    <circle cx="290" cy="587.52" r="24"/>
+   </g>
+  </g>
+  <g stroke="#000" stroke-linecap="round" stroke-linejoin="bevel" stroke-opacity=".33333" stroke-width="2">
+   <circle cx="350" cy="527.52" r="24" fill="#080" fill-opacity=".66667"/>
+   <circle cx="410" cy="587.52" r="24" fill="#f80" fill-opacity=".33333"/>
+   <circle cx="350" cy="647.52" r="24" fill="#f80" fill-opacity=".33333"/>
+  </g>
+  <g fill="#000000" font-family="sans-serif" font-size="40px" letter-spacing="0px" text-anchor="middle" word-spacing="0px">
+   <text x="410" y="594.51965" text-align="center" style="line-height:1.25" xml:space="preserve"><tspan x="410" y="594.51965" font-size="21.333px">SS1</tspan></text>
+   <text x="350" y="654.51971" text-align="center" style="line-height:1.25" xml:space="preserve"><tspan x="350" y="654.51971" font-size="21.333px">DCP</tspan></text>
+   <text x="350" y="534.51965" text-align="center" style="line-height:1.25" xml:space="preserve"><tspan x="350" y="534.51965" font-size="21.333px">FG</tspan></text>
+   <text x="290" y="594.51965" text-align="center" style="line-height:1.25" xml:space="preserve"><tspan x="290" y="594.51965" font-size="21.333px">N/C</tspan></text>
+   <text x="410" y="964.51965" text-align="center" style="line-height:1.25" xml:space="preserve"><tspan x="410" y="964.51965" font-size="21.333px">C-H</tspan></text>
+   <text x="350" y="1024.5198" text-align="center" style="line-height:1.25" xml:space="preserve"><tspan x="350" y="1024.5198" font-size="21.333px">SS2</tspan></text>
+   <text x="350" y="904.51965" text-align="center" style="line-height:1.25" xml:space="preserve"><tspan x="350" y="904.51965" font-size="21.333px">PP</tspan></text>
+   <text x="290" y="964.51965" text-align="center" style="line-height:1.25" xml:space="preserve"><tspan x="290" y="964.51965" font-size="21.333px">C-L</tspan></text>
+   <text x="200" y="787.51965" text-align="center" style="line-height:1.25" xml:space="preserve"><tspan x="200" y="787.51965">DC+</tspan></text>
+   <text x="500" y="787.51965" text-align="center" style="line-height:1.25" xml:space="preserve"><tspan x="500" y="787.51965">DC-</tspan></text>
+  </g>
+ </g>
+</svg>
