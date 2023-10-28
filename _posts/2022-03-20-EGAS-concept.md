@@ -28,7 +28,7 @@ A group of German automotive manufacturers([VDA](https://www.vda.de/en)) have cr
 > **E/E**: electrical and electronic.  
 
 ### II.1 Guidelines for development
-  Below are list of **EGAS Developing Guidelines** that shall be adhere during development of a system following EGAS concept. Under each guidelines is an further explanation base on my own understanding and experiences.
+  Below are list of **EGAS Developing Guidelines** that shall be adhere during development of a system following EGAS concept. Under each guideline item is an further explanation base on my own understanding and experiences.
 1. Protection of life has the highest priority.  
     <span style="color:#3ac580">&#10233; pretty straight forward, safety of the driver and anyone involve is the most importance.</span>  
 2. Reliability has higher priority than backup functions.  
@@ -68,7 +68,7 @@ A group of German automotive manufacturers([VDA](https://www.vda.de/en)) have cr
 ### II.2 The Architecture
 
   Now we will go into system architecture design to cover above principles.With a basic system, we should have inputs(sensor data, communication data,...), processing unit(which carry out control operation and intended functions), outputs(actuators being controlled by the processing unit, causing effect on the outside environment).  
-  If the basic system only care about functioning as its intended, corresponding to the inputs, and able to keep operating consistently then we can say the system is reliable. But upon faulty inputs(user use it wrong, corruption of input data,...) or fault that's rooted from the internal components(part ware down, random faulty E/E part,...), system could cause a catastrophic failure and effect to the surrounding environment and users. We can say that is not a safe system, reliable yes but not safe.  
+  If the basic system only care about functioning as its intended, corresponding to the inputs, and able to keep operating consistently over a long period of time then we can say the system is reliable. But upon faulty inputs(user use it wrong, corruption of input data,...) or fault that's rooted from the internal components(part ware down, random faulty E/E part,...), system could cause a catastrophic failure and effect to the surrounding environment and users. We can say that is not a safe system, reliable might be but not safe.  
 On the other hand, Safe system beside carry out its intended function, it shall address the reaction of it when fault occur in the system. Safe system shall react properly, make potential dangerous failure become **safe failure** (i.e. system change to a state that prevent damages that could create hazards toward user).
 
   As said above, when system involve human interaction, we should not design a basic system and only consider its reliability. We should design a system to be safe.  
@@ -87,11 +87,15 @@ Below table is list of system configuration for example base system(1 out of 1 i
 ![alt](/assets/img/blogs/2022_03_04/EGAS-configuration_3.png)
 
 With different configuration of architecture, we can achieve different target in term of availability(keep system available when fault occur) and safety.  
-We can see that 1oo1D and 1oo2 offer the same "High Safety" characteristic, however 1oo1D configuration provide safety by increasing system diagnostic coverage and does not require as much as components as 1oo2. So we lean toward 1oo1D configuration for its simplicity and cheaper to implement.
+We can see that 1oo1D and 1oo2(serial on the output) offer the same "High Safety" characteristic, however 1oo1D configuration provide safety by increasing system diagnostic coverage and does not require a duplication of main processing component as 1oo2. So we lean toward 1oo1D configuration for its simplicity and cheaper to implement.
 
-For more information about other configuration of system architecture, you can read them in the book **"Safety Instrumented Systems Verification: Practical Probabilistic Calculations"** by William M. Goble and Harry Cheddie
+For more information about other configuration type of system architecture, you can read more about them in the book **"Safety Instrumented Systems Verification: Practical Probabilistic Calculations"** by William M. Goble and Harry Cheddie
 
 #### EGAS 3 level system concept
+> fail silent:  
+> fail operational:  
+> fail safe:  
+
 The following image shows the overview of EGAS concept in the specification. For the Level1, Level2, Level3 terminology, they shall be explained in more detail in next section.
 <figure>
   <img src="/assets/img/blogs/2022_03_04/EGAS-arch.png" alt="EGAS arch">

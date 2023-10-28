@@ -38,8 +38,8 @@ Beside diagnostic services provide for the external tester tool(OFF Board), vehi
 </figure>
 
 ## 2. Diagnostic OSI model
-  UDS protocol standard specifications are defined by International Organization for Standardization(ISO) in ISO 14229. There are 8 parts but this introduction we only focus
-on PART 1:APPLICATION LAYER and PART 2: SESSION LAYER SERVICES for UDS application, the remaining is specific for different type of transmission medium(i.e. Can, Ethernet, Flexray,...).  
+  UDS protocol standard specifications are defined by International Organization for Standardization(ISO) in ISO 14229. There are 8 parts but in this introduction we only focus
+on PART 1:APPLICATION LAYER and PART 2: SESSION LAYER SERVICES for UDS application, the remaining is specific for different type of transmission medium(i.e. CAN, Ethernet, Flexray,...).  
 * **ISO 14229-1:** specifies data link independent requirements of **diagnostic services**, which allow a diagnostic tester (client) to control diagnostic functions in an on-vehicle electronic control unit (ECU, server) such as an electronic fuel injection, automatic gearbox, anti-lock braking system, etc. connected to a serial data link embedded in a road vehicle.  
 * **ISO 14229-2:** specifies **common session layer** services and requirements to **provide independence** between unified diagnostic services (ISO 14229-1) and all **transport protocols and network layer services** (e.g. ISO 13400-2 DoIP, ISO 15765-2 DoCAN, ISO 10681-2 communication on FlexRay, ISO 14230-2 DoK-Line, and ISO 20794-3 CXPI).  
 * **ISO 14229-3:** specifies the implementation of a common set of unified diagnostic services (UDS) on controller area networks (CAN) in road vehicles (UDSonCAN).  
@@ -68,19 +68,32 @@ For this blog, we shall have some example on diagnostic over CAN, so some of the
 * **The server:** usually an ECU or a vehicle function(which is allocated in multiple ECU), uses the application layer services to send response data, provided by the requested diagnostic service, back to the client.  
 
 The **server shall always confirm message transmission**, meaning that for each service request sent from the client, there shall be one or more corresponding responses sent from the server either positive or negative.  
+
 The only exception from this rule shall be a few cases when **functional addressing is used**  
 or **the request specifies that no response shall be generated**.  
+
 In order not to burden the system with many unnecessary messages, there are a few cases when a negative response message shall not be sent even if the server failed to complete the requested diagnostic service. 
 
 > NOTE: Negative response messages with **negative response codes** of **SNS (serviceNotSupported)**, **SNSIAS (serviceNotSupportedInActiveSession)**, **SFNS (SubFunctionNotSupported)**, **SFNSIAS (SubFunctionNotSupportedInActiveSession)**, and **ROOR (requestOutOfRange)** shall not be transmitted when **functional addressing** was used for the request message.
 
 ### 3.2 Protocol Data Unit structure
 
-#### Message format:
+#### Application Layer diagnostic services format:
 <figure>
   <img src="/assets/img/blogs/2021_12_17/3_apdu_structure.png" alt="APDU structure">
   <figcaption>Application Protocol Data Unit</figcaption>
 </figure>
+
+> **Message Type**  
+> **diagnostics**: direct diagnostic communication between diagnostic tester client and diagnostic server in the same network (no optional \[Remote Address\] field)  
+> **remote diagnostics**: diagnostic services request/response from/to tester client(\[Source Address\]) shall be routed to target diagnostic server(\[Remote Address\]) via network gateway component(\[Target Address\]) (e.g. Vehicle Gateway ECU).  
+> **secure diagnostics**:   
+> 
+> **Source Address**: logical address of the node that send out diagnostic request or response.  
+> **Target Address**: logical address of the node that receive diagnostic request or response, this could be functional or physical. In case of remote diagnostic type, this "Target Address" should be the address of local gateway node that interact with other network.  
+> **Remote Address**: logical address of the node, which belong to other network that will receive diagnostic request or response from send node.
+
+![Application Layer frame address](/assets/img/blogs/2021_12_17/15_Application_addressing.png)
 
 
 #### Sub-function byte, Data Identifier:
@@ -99,23 +112,24 @@ Several UDS services support sub-functions(SF) to further define the request fun
 &#10146; e.g. ECUReset, Session Change  
 Several UDS services support a Data Identifier(DID) to get access to data via a logical number(DID) which is used for the UDS communication  
 ➢ e.g. Read & Write Data  
-CAN TP PCI (protocol control information) is CAN transport layer PDU header information, specified by ISO 16572-2  
+
+CAN TP PCI (protocol control information) is CAN transport layer PDU header information, specified by ISO 16572-2. CAN TP help break down and reassemble Application Layer UDS frame during transmission and receive, in case of application data can not be sent by a single CAN frame (i.e. classic CAN physical only support 8 bytes payload data).   
 
 #### Addressing:
 ![Addressing](/assets/img/blogs/2021_12_17/3_protocol_addressing.png)
 Example: EDS ECU in PT system of the vehicle shall has:
-- physical address = 0x0A, shall has corresponding physical diagnostic request/response with CAN message ID value as 0x78A, 0x70A (base address for diagnostic function message in this CAN bus is 0x700 hence 0x7XX) 
+- physical address = 0x0A, shall has corresponding **physical diagnostic request/response** with CAN message ID value as **0x78A(req), 0x70A(resp)** (base address for diagnostic function message in this CAN bus is 0x700 hence 0x7XX) 
 - 2 additional functional addresses: 0x22(0x722, in case of supporting OBD related services) and 0x3A(0x73A) for diagnostic services operation of all ECUs on the Power Train system. 
 
 #### Addressing schemes:
-Depending on each project, some only support CAN message with 11 bit identifier(2.0A) other 29 bit(2.0B), different message addressing schemes for diagnostic source and target could be used:  
+Depending on each project, some only support CAN message with 11 bit identifier(2.0A) other 29 bit(2.0B), different **message addressing schemes for diagnostic source and target** could be used:  
 
 | Scheme                                | Description          | Example |
 |:-------------------------------------:|-------------| -----|
-| Normal                                | CAN ID contains source and target address. 2 CAN IDs for each ECU (diag request/response). | phys request: 0x78A<br> phys response: 0x70A |
-| Extended                              | CAN ID contains source address, first data (payload) byte contains target address.<br>1 CAN ID for diag request of all ECUs: base address + source address(tester), target of specific ECU is located in payload data.<br>1 CAN ID per ECU for the response, ECU ID is in CAN ID and testerID is in payload data. | 11-bit: 0xNss, Data: 0xtt....<br>29-bit: 0xNnNnNnss, Data: 0xtt.... |
-| Normal Fixed (29-bit CAN IDs only)    | CAN ID contains source and target address. 2 CAN IDs for each ECU (diag request/response). | format: 0x03FFttss<br>phys request: 0x03FF0102<br>phys response: 0x03FF0201<br>testerID: 0x01, ECU: 0x02 and 0x03FF is base for physical addressing|
-| Mixed Addressing (29-bit CAN IDs only)| For ECUs in different subnets: CAN ID contains the local addresses, of which one is the gateway address;<br>first data byte contains the remote address (local address in the other subnet, also called Address Extension AE). | 0x0CEAggss, Data: 0xtt... (0x0CEA is base for rphysical addressing)<br>0x0CDAggss, Data: 0xtt... (0x0CDA is base for functional addressing) |
+| Normal                                | CAN ID contains either source or target address. 2 CAN IDs for each ECU (diag request/response).<br> ➢ n*2 msg ID used for diagnostic for n ECUs in the network | phys request: 0x78A<br> phys response: 0x70A |
+| Extended                              | CAN ID contains source address, first data (payload) byte contains target address.<br>**1 CAN ID for diag request of all ECUs**: base address + source address(tester), target of specific ECU is located in payload data.<br>**1 CAN ID per each ECU** for the response, ECU ID is in CAN ID and testerID is in payload data.<br> ➢ n+1 msg ID used for diagnostic for n ECUs in the network | 11-bit: 0xNss, Data: 0xtt....<br>29-bit: 0xNnNnNnss, Data: 0xtt.... |
+| Normal Fixed (29-bit CAN IDs only)    | CAN ID contains both source and target address. 2 CAN IDs for each ECU (diag request/response). | format: 0x03FFttss<br>phys request: 0x03FF0102<br>phys response: 0x03FF0201<br>testerID: 0x01, ECU: 0x02 and 0x03FF is base for physical addressing|
+| Mixed Addressing (29-bit CAN IDs only)| For ECUs in different subnets: CAN ID contains the local addresses, of which one is the gateway address;<br>first data byte contains the remote address (local address in the other subnet, also called Address Extension AE). | 0x0CEAggss, Data: 0xtt... (0x0CEA is base for physical addressing)<br>0x0CDAggss, Data: 0xtt... (0x0CDA is base for functional addressing) |
 
 > gg: gateway address  
 > ss: source address  
@@ -125,16 +139,18 @@ Depending on each project, some only support CAN message with 11 bit identifier(
 
 ### 3.3 Message timing
   For session layer of UDS, there are no special operation beside timing of handling request/response during communication.
-In general, we have to configured following timer:  
+In general, we have to configured following timers:  
 **⮚ Tester**:  
 - **P2<sub>Client</sub>**: **Timeout value for the client** to wait after the successful transmission of a request message till the start of incoming response message.
-  * **P2<sub>Client_max</sub>**: is the maximum value of P2<sub>Client</sub>
-  * **P2<sup>*</sup><sub>Client_max</sub>**: enhanced timeout for the client to wait after the reception of a negative response message, with negative response code 0x78(requestCorrectlyReceived-ResponsePending) for the start of incoming response messages.
+  * **P2<sub>Client_max</sub>**: is the initial/default value of P2<sub>Client</sub>
+  * **P2<sup>*</sup><sub>Client_max</sub>**: enhanced timeout for the client to wait after the reception of a negative response message, with negative response code 0x78(requestCorrectlyReceived-ResponsePending) for the start of next incoming response messages.
+- **S3 client time**: Time the diagnostic client (=tester) should wait before sending a tester present request.
 
 **⮚ ECU**:  
 - **P2<sub>Server</sub>**: **performance timer of ECU**, and is either loaded with P2<sub>Server_max</sub> or P2<sup>*</sup><sub>Server_max</sub> value.
   * **P2<sub>Server_max</sub>**: server either process the request and send back a response in time or the request processing is still going and the timeout(P2<sub>Server_max</sub> value) occur then server send back a negative with NRC=0x78 for "**requestCorrectlyReceived-ResponsePending**" to notify about pending final response.
-  * **P2<sup>*</sup><sub>Server_max</sub>**: performance requirement for the server to start after the transmission of a negative response message with negative response code 0x78. In case the server can still not provide the requested information within the enhanced P2<sup>*</sup><sub>Server_max</sub>, then a further(number of time depend on configuration) negative response message including negative response code 0x78 can be sent by the server.
+  * **P2<sup>*</sup><sub>Server_max</sub>**: performance requirement for the server to start after the transmission of a negative response message with negative response code 0x78. In case the server can still not provide the requested information within the enhanced P2<sup>*</sup><sub>Server_max</sub>, then a further(number of time depend on configuration) negative response message with negative response code 0x78 shall be sent again.
+- **S3 server time**: Timeout in the diagnostic server for leaving a non-default session.
 - **P4<sub>Server</sub>**: is performance requirement time, which is period between the reception of a request and the start of transmission of the final response(which can be either a positive response or negative response with NRC is not 0x78).  
 In case of a request to schedule periodic responses, the initial Unacknowledged Segmented Data Transfer(USDT) positive or negative response that indicates the acceptance or non-acceptance of the request to schedule periodic responses shall be considered the final response.  
 If P4<sub>Server_max</sub> is the same as P2<sub>Server_max</sub>, this means that a negative response with negative response code 0x78 is not allowed for that service or data
@@ -306,16 +322,31 @@ Diagnostic software shall support services:
 - to download updated software(split into multiple data packets) from Tester entities.
 - to erase and write data into flash memory.
 
-Programming sequence is divided into two programming phases. All steps in the sequence can be categorized as:
-- UDS standardized step
-- Optional/recommended step
-- Vehicle manufacturer specific step 
+Programming sequence is divided into two programming phases.  
+Programming phase 1(mandatory): used for programming below software/data
+- bootloader software
+- application software
+- application data  
+The programming sequence can be divided into 3 sections: pre-programming, programming execution, post-programming  
 
-Below is a example sequence of diagnostic services that shall be called during programming operation.
+Programming phase 2(optional): can be triggered by FBL and perform when ECU boot-up into application such as: 
+- some additional ECU identification update,
+- clear old diagnostic fault,
+- and adaption, coding data need to be written into ECU after completed a application software update.
+
+Below is a example sequence of diagnostic services that shall be called during programming operation (Phase 1).
 <figure>
-  <img src="/assets/img/blogs/2021_12_17/9_.png" alt="Sequence of diagnostic services">
-  <figcaption>Sequence of diagnostic services during reprogramming</figcaption>
+  <img src="/assets/img/blogs/2021_12_17/9_sw_dl_programming_precondition.jpg" alt="Pre-programming stage">
+  <figcaption>Pre-programming check: could be trigger either when ECU in application or FBL to check, control programming condition state of ECU/Vehicle</figcaption>
+</figure>
+<figure>
+  <img src="/assets/img/blogs/2021_12_17/9_sw_dl_programming_execution.png" alt="Programming stage">
+  <figcaption>Programming: normal software download and programming sequence</figcaption>
+</figure>
+<figure>
+  <img src="/assets/img/blogs/2021_12_17/9_sw_dl_post_programming.png" alt="Post-programming stage">
+  <figcaption>Post-programming check: could be triggered either when ECU in application or FBL to re-enable normal communication, diagnostic event monitor</figcaption>
 </figure>
 
-## 9. Calibration (coding)
+## 9. Calibration (adaption/coding)
 TBD

@@ -8,9 +8,9 @@ last_modified_at: 2023-04-16
 ---
 
   CHAdeMO is an association that specify the standards for **DC fast-charging system** which include:  
-- technical design and requirement for charging components of EV Charging Station(charger and cable assembly) and required operation on the EV side.  
-- protocol between EV Charging Station(Electrical Vehicle Supply Equipment - EVSE) and EV.  
-- bi-directional charging function vehicle-to-grid/vehicle-grid-integration (V2G/VGI).  
+- **technical design** and requirement for charging components of EV Charging Station(charger and cable assembly) and required operation on the EV side.  
+- **protocol** between EV Charging Station(Electrical Vehicle Supply Equipment - EVSE) and EV.  
+- **bi-directional charging** function vehicle-to-grid/vehicle-grid-integration (V2G/VGI).  
 all of them is specified in 1 specification with additional guideline on bidirectional V2L/V2H.  
 
 Timeline of CHAdeMO protocol standards:

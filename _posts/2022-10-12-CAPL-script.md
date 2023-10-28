@@ -274,7 +274,7 @@ on signal ( signalname1 | signalname2 | ...) // handling several signals
   <figcaption>CAPL event available in CAPL editor</figcaption>
 </figure>
 Except for the testcases, which can be called on test execution, all of the CANoe nodes are operated base on event processing.  
-In a test nodes most of the time, you don't need to define the event handler, because CANoe provide a very well API libraries, that we can use to create a sequential testing operation (e.g. TestWaitFor* API to wait for certain event to occur).  
+In a test nodes most of the time, you don't need to define the event handler, because CANoe provide a very well defined API libraries, that we can use to create a sequential testing operation (e.g. TestWaitFor* API to wait for certain event to occur).  
 But some time, you might need access to a lower layer level of data, which can not be provide by CANoe API or you just want to create a custom procedure to filter event, in that cases define these `on <event>` handle and a notification mechanism(e.g. using sysvar, text event notification) will help you a lot during testing process.
 {% highlight C %}
 // handling event on SimulatedHeadUnit node port in EthernetNetwork bus
@@ -310,3 +310,6 @@ In C, for example, all processing sequences begin with the central start functio
 In CAPL, on the other hand, a program contains an entire assortment of procedures of equal standing, each of which reacts to external events:
 
 # III. Actual Project Example
+
+
+
