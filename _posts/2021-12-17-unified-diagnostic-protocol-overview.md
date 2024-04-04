@@ -287,9 +287,9 @@ So with each logical DTC number following data shall be associated to it:
 <u><b>DTC Status Byte:</b></u>  
 ![DTC](/assets/img/blogs/2021_12_17/7_Fault_DTC_2.png)
 
-<u><b>DTC Snapshots:</b></u> are specific data records associated with a DTC, that are stored in the server's memory. The typical usage of DTC Snapshots is to store data upon detection of a system malfunction. The DTC Snapshots will act as a snapshot of data values from the time of the system malfunction occurrence.  
+<u><b>DTC Snapshots:</b></u> are specific data records(DIDs) associated with a DTC, that are stored in the server's memory. The typical usage of DTC Snapshots is to store data upon detection of a system malfunction. The DTC Snapshots will act as a snapshot of data values from the time of the system malfunction occurrence.  
 
-<u><b>DTC Extended Data:</b></u> is to store dynamic data associated with the DTC
+<u><b>DTC Extended Data:</b></u> is to store dynamic data(statistic) associated with the DTC
 * DTC B1 Malfunction Indicator counter which conveys the amount of time (number of engine operating hours) during which the OBD system has operated while a malfunction is active.  
 * DTC occurrence counter, counts number of driving cycles in which "testFailed" has been reported.  
 * DTC aging counter, counts number of driving cycles since the fault was latest failed excluding the driving cycles in which the test has not reported "testPassed" or "testFailed".  
@@ -307,11 +307,20 @@ So with each logical DTC number following data shall be associated to it:
 ![DTC](/assets/img/blogs/2021_12_17/7_DTC_19_subfunctions.png)
 
 ### 7.2. Data Identifier
-Data Identifier(DID) is logical number used to address specific data storage location.
+A Data Identifier (DID) is is logical number used to address specific data storage location available in the ECU memory.
+DID is used for various diagnostic use-cases such as:
+- Measurement, Dynamic, Live Data 
+- Stored Data 
+- Identification 
+- IO Control 
+- ECU Configuration, Variant Coding 
+- Freeze Frame / Snapshot Data 
+- … 
+Normally some Data Identifier(DID)s shall be configured as related to specific DTC and a snapshot of their value is stored when DTC is logged.  
 
 
 ## 8. Flashing (reprogramming)
-  A list of diagnostic services shall be used in flashing operation to provide a defined sequences/interfaces, that handle software update process(i.e. preprogramming state transition, communication interface preparation, transmission and programming of received data into flash memory).
+  A list of diagnostic services shall be used in flashing operation to provide a defined sequences/interfaces, that handle software update process(i.e. pre-programming state transition, communication interface preparation, transmission and programming of received data into flash memory).
 <figure>
   <img src="/assets/img/blogs/2021_12_17/8_app_boot_state_machine.jpg" alt="State transition between application and bootloader software">
   <figcaption>State transition between application and bootloader software</figcaption>
@@ -348,5 +357,23 @@ Below is a example sequence of diagnostic services that shall be called during p
   <figcaption>Post-programming check: could be triggered either when ECU in application or FBL to re-enable normal communication, diagnostic event monitor</figcaption>
 </figure>
 
-## 9. Calibration (adaption/coding)
-TBD
+## 9. Configuration and Calibration (adaption/coding DIDs)
+Coding DIDs is used to toggle on/off specific functionalities of the ECU to adapt it to different ECU specific HW platform or line of vehicle. Normally Variant Coding DIDs shall be configured during End-Of-Line production with a secure variant coding write sequence as below.  
+<figure>
+  <img src="/assets/img/blogs/2021_12_17/16_VariantCoding.png" alt="variant coding sequence">
+  <figcaption>Example of a variant coding write sequence</figcaption>
+</figure>
+
+Calibration DIDs is used to tuning the ECU operation, e.g. when adapting its configuration to surrounding conditions such specific operating environment, other vehicle equipments(sensor, actuator characteristics),...
+The write Calibration DIDs sequence could be similar to variant coding one.
+
+## 10. Diagnostic function development
+When it comes to development the diagnostic functionalities of an actual ECU project, how it should be carried-out? You can refer to below diagram.  
+This just an example, different project with different tool-chains might be slightly variate. But still you have to has:
+- OEM diagnostic specification, project dependent diagnostic specification ⟹ requirement and is realized in Open Diagnostic eXchange(ODX) format database file such as .cdd, .pdx, .odx
+- Development tool to view/modify ODX file or possibly parsing the file content into corresponding configuration data ⟹ configuration of classic AUTOSAR module like DEM, DCM, FIM 
+- Diagnostic testing tool to parse the ODX file to create validation environment manually or automation ⟹ ODX file is used as reference data for V&V operation
+<figure>
+  <img src="/assets/img/blogs/2021_12_17/17_diagnostic_development.png" alt="diagnostic development">
+  <figcaption>Example of diagnostic function development with Vector tool-chains</figcaption>
+</figure>
