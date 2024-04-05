@@ -12,14 +12,14 @@ title: About
 2. [Delta Robot](https://link)  
 
 **Profession Experiences:**
-1. AUTOSAR MCAL Software Engineer: MCAL development for Renesas RCAR Gen3 SOC  
-2. AUTOSAR ASW Software Developer: AUTOSAR SWC development with matlab-targetlink for Commercial Vehicle ECU - Signal Actuation Module(SAM ECU).  
-3. Senior Embedded Software Engineer: AUTOSAR/Safety sw development for Passenger EV Power Electronic ECU(OnBoard Charger, DCDC Converter & Power Distribution Unit) and EV AC&DC Charging Station.  
-4. Senior Embedded Software Engineer: AUTOSAR/Safety/CyberSecurity sw development for Digital Matrix Light, Audio Amplifier, OBC/DCDC, MHU ECU.
+1. Senior Embedded Software Engineer: AUTOSAR/Safety/CyberSecurity SW development for Digital Matrix Light, Audio Amplifier, OBC/DCDC, MHU ECU.
+2. Senior Embedded Software Engineer: AUTOSAR/Safety SW development for Passenger EV Power Electronic ECU(OnBoard Charger, DCDC Converter & Power Distribution Unit) and EV AC&DC Charging Station.  
+3. AUTOSAR ASW Software Developer: AUTOSAR SWC development with matlab-targetlink for Commercial Vehicle ECU - Signal Actuation Module(SAM ECU).  
+4. AUTOSAR MCAL Software Engineer: MCAL development for Renesas RCAR Gen3 SOC  
 
 **Projects:**
-1. [STM32F407 AUTOSAR 4.4.0 MCAL](https://github.com/)
-2. [ISO15118 compliance test suite](https://github.com/)
+1. [STM32F407 AUTOSAR 4.4.0 MCAL](https://github.com/nvdungx/STM32F4_MCAL)
+2. [ISO15118 compliance test suite](https://github.com/nvdungx/ISO15118_4_TestEnv)
 3. [OCPP compliance test suite](https://github.com/)
 
 **Contact info:** [mail](mailto:nvdung694@gmail.com) - [linkedin](https://www.linkedin.com/in/dugx9/)  

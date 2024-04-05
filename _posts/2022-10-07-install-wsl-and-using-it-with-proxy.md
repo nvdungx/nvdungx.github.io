@@ -40,12 +40,13 @@ W: Some index files failed to download. They have been ignored, or old ones used
 to fix above issues, following below step.  
 
 1. `sudo vim ~/.bashrc`  
-  Add following at the end of file:  
-3. `export http_proxy=http://<address>:<port>`  
-4. `sudo visudo`  
-  Add following line after line "Defaults env_reset"  
-5. `Defaults        env_keep = "http_proxy"`  
-  Things should be able to run smoothly now.  
+Add following at the end of file:  
+2. `export http_proxy=http://<address>:<port>`  
+3. `sudo visudo`  
+Add following line after line "Defaults env_reset"  
+4. `Defaults        env_keep = "http_proxy"`  
+
+Things should be able to run smoothly now.  
 {% highlight bash %}
 user@usergrp:~$ sudo apt update
 Get:1 http://security.ubuntu.com/ubuntu focal-security InRelease [114 kB]

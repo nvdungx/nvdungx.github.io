@@ -28,10 +28,10 @@ last_modified_at: 2022-12-28
 
 Some characteristics of CAPL script are:
 - C like syntax.
-- Event-driven (individual functions(evaluate, set signal values, send messages) that react to received messages, expired timers, change of a signals or in the environment).
+- Event-driven (individual functions(evaluate, set signal values, send messages) that react to received messages, expired timers event, change of a signals or in the environment).
 - CAPL program can be developed(.can, .cin) and compiled(.cbf) using Vector tool CAPL Browser(IDE).
 - Direct access to messages, signals, system variables and diagnostic parameters(via database file such as DBC CDD because CAPL Browser is integrated with CANoe,CANalyzer tool chain).
-- Can link to user dll(e.g. diagnostic operation: encryption API, key, seed value).
+- Can link to user dll(e.g. diagnostic operation: encryption API, security key/seed calculation).
 > .can: is execution code and compiled  
 > .cin: is for common/library function, and shall be included by .can  
 
@@ -153,6 +153,7 @@ For a test node, main section of CAPL test script are:
 
 ### I.2 `variable`
 - CAPL program variables can be declared in each function as local variable or under `variables` section as global variables.
+> NOTE: CAPL only allow declare local variable at the beginning portion of the function.
 {% highlight C %}
 variables 
 {
@@ -210,8 +211,8 @@ message 0x701 msg;
 }
 {% endhighlight %}
 ![variable object](/assets/img/blogs/2022_10_12/variable.png)
-> - Struct, array, associative field, object, when used as function parameter will be passed as reference by default.
-> - Other primitive data type has to used `&` to mark that it shall be passed as reference. E.g. `void Function(byte& ref); Function(var);`
+> - Struct, array, associative field, object, when used as function parameter will be `passed as reference` by default.
+> - Other primitive data type has to used `&` to mark that it shall be `passed as reference`. E.g. `void Function(byte& ref); Function(var);`
 
 - `sysvar` or `System Variables` are defined under tab Environment/System Variables, it can be accessed everywhere in CANoe configuration. We define **user sysvar to shared, route data around testing environment between test nodes, simulated nodes, measurement nodes, CANoe panel**. CANoe also provide sysvar so test nodes can interact with other component in a testing environment such as VT System.
 ![syvar2](/assets/img/blogs/2022_10_12/sysvar2.png)

@@ -315,7 +315,8 @@ DID is used for various diagnostic use-cases such as:
 - IO Control 
 - ECU Configuration, Variant Coding 
 - Freeze Frame / Snapshot Data 
-- … 
+- …
+
 Normally some Data Identifier(DID)s shall be configured as related to specific DTC and a snapshot of their value is stored when DTC is logged.  
 
 
@@ -365,14 +366,15 @@ Coding DIDs is used to toggle on/off specific functionalities of the ECU to adap
 </figure>
 
 Calibration DIDs is used to tuning the ECU operation, e.g. when adapting its configuration to surrounding conditions such specific operating environment, other vehicle equipments(sensor, actuator characteristics),...
-The write Calibration DIDs sequence could be similar to variant coding one.
+The write Calibration DIDs sequence could be similar to above variant coding one.
 
 ## 10. Diagnostic function development
 When it comes to development the diagnostic functionalities of an actual ECU project, how it should be carried-out? You can refer to below diagram.  
 This just an example, different project with different tool-chains might be slightly variate. But still you have to has:
 - OEM diagnostic specification, project dependent diagnostic specification ⟹ requirement and is realized in Open Diagnostic eXchange(ODX) format database file such as .cdd, .pdx, .odx
-- Development tool to view/modify ODX file or possibly parsing the file content into corresponding configuration data ⟹ configuration of classic AUTOSAR module like DEM, DCM, FIM 
-- Diagnostic testing tool to parse the ODX file to create validation environment manually or automation ⟹ ODX file is used as reference data for V&V operation
+- Development tool to view/modify ODX file or possibly parsing the file content into corresponding configuration data ⟹ configuration of classic AUTOSAR module like DEM, DCM, FIM.
+- Design and implementation of diagnostic application (SWCs).
+- Diagnostic testing tool to parse the ODX file to create validation environment manually or automation ⟹ ODX file is used as reference data for V&V operation.
 <figure>
   <img src="/assets/img/blogs/2021_12_17/17_diagnostic_development.png" alt="diagnostic development">
   <figcaption>Example of diagnostic function development with Vector tool-chains</figcaption>
