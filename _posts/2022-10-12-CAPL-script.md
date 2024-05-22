@@ -504,14 +504,27 @@ Another input for testing environment is diagnostic description database file ei
 
 If your test setup have VT system, some additional configuration for it is needed as well.  
 
+<figure>
+  <img src="/assets/img/blogs/2022_10_12/ExampleCANoeSetup.png" alt="CANoe test env">
+  <figcaption>Example test environment setup(CANoe18)</figcaption>
+</figure>
 
+<figure>
+  <img src="/assets/img/blogs/2022_10_12/CAPL.png" alt="CANoe test env">
+  <figcaption>CAPL testcase implementation</figcaption>
+</figure>
+
+During CAPL test script development, you can also debug CAPL as below.  
+<figure>
+  <img src="/assets/img/blogs/2022_10_12/CAPL_DEBUG.png" alt="CANoe test env">
+  <figcaption>CAPL debug</figcaption>
+</figure>
 
 <p class="message">
   <small>In general, CAPL provide a lot of CANoe environment specific supported APIs(create stimulation, validation, and report) but for complex automation action, data processing such as: directory, file manipulate, XML/json parsing, cryptography operation,... Higher level programming language with rich libraries support such as C# .NET should be preferred. <br/>
   My suggestion for optimal setup of CANoe automation test environment is:<br/>
   - XML test node: easier for management/display/control during testing (regression test, manual/automation,...) <br/>
-  - CAPL script: main implementation of testcases/testfunction to be called in XML test node, due to well supported/native Vector CANoe test APIs <br/>
+  - CAPL script: core implementation of testcases/testfunction to be called in XML test node, due to well supported/native Vector CANoe test APIs <br/>
   - C# .NET user library .DLL: can be easy implemented, built into .DLL and included to/called by main CAPL script, help expand automation functionalities. Ease the verification step in case of dealing with complex data and environment manipulation, which is very much limited with CAPL. <br/>
-
    </small>
 </p>
