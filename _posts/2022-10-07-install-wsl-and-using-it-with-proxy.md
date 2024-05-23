@@ -59,3 +59,8 @@ Building dependency tree
 Reading state information... Done
 275 packages can be upgraded. Run 'apt list --upgradable' to see them.
 {% endhighlight %}
+
+If adding proxy environment variables still not work, then we can configure the proxy setting directly to `apt` configuration.  
+Set the content of apt config file `/etc/apt/apt.conf` as below:
+`Acquire::http::Proxy "http://<proxy-server>:<port>";`  
+`Acquire::https::Proxy "https://<proxy-server>:<port>";`  
