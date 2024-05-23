@@ -25,4 +25,5 @@ PS C:\Users> explorer ~/pip/
 trusted-host = pypi.python.org
                pypi.org
                files.pythonhosted.org"
+proxy = http://<proxy-server-address>:<port> // additional setting in case your network connection has proxy configuration
 {% endhighlight %}
