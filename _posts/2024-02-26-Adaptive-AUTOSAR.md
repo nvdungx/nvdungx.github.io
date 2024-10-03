@@ -69,7 +69,13 @@ Example of reduced behavioral dynamics (communication, memory, execution & timin
 
 # I. Overview Functional Clusters (Building Block)
 > daemon-based: process that run in the background.  
-> `NOTE`: following diagrams serve as an initial reference of FC interfaces. It does not address all possible Adaptive Platform FC interfaces, which is depended on the specific Vendor's interpretation and implementation  
+>
+> Machine: is quasi a virtualized ECU-HW, an entity where software can
+be deployed to. In this spirit, one real ECU-HW could run several Machines, even
+though the methodology will not detail this. In the simplest case there is a 1:1 mapping
+between a Machine and a ECU-HW.
+
+`NOTE`: *following diagrams serve as an initial reference of FC interfaces. It does not address all possible Adaptive Platform FC interfaces, which is depended on the specific Vendor's interpretation and implementation.*  
 
 ### I.1 Runtime
 **`Execution Management`**: responsible to control Processes of the AUTOSAR Adaptive Platform and Adaptive Applications (i.e. starts, configures, and stops Processes) 
@@ -85,8 +91,8 @@ Example of reduced behavioral dynamics (communication, memory, execution & timin
 ![Execution Management concept](/assets/img/blogs/2024_02_27/ExecutionManagement_MachineState.png)
 Startup sequence: OS or hypervisor initialize then start the `Execution Management` as the `1st Adaptive AUTOSAR process` ⟹ EXEC then start other FCs or AAs according to Manifest, authentication boot shall be performed as well and `started processes state shall be notified to PHM for follow-up supervising activities`.  
 
-- Machine Functional Group(FG) State: group of processes(Adaptive Platform FC, Adaptive Application) available at certain Machine State (.e.g Startup, Running, Shutdown)
-- FG State: group of processes available at requested FG State by State Management (.e.g Startup, Driving, Restart, Parking,...)
+- Machine Functional Group(FG) State: group of processes(Adaptive Platform FC, Adaptive Application) available at certain `Machine State` (.e.g Startup, Running, Shutdown)
+- FG State: group of processes available at `requested FG State` by State Management (.e.g Startup, Driving, Restart, Parking,...)
 - Process/Execution State: state of process (.e.g. Initializing, Running, Terminating)
 ![Execution Management concept](/assets/img/blogs/2024_02_27/ExecutionManagement_StateConcept.png)
 ![Execution Management concept](/assets/img/blogs/2024_02_27/ExecutionManagement_StateRequest.png)
@@ -101,7 +107,7 @@ Startup sequence: OS or hypervisor initialize then start the `Execution Manageme
 </figure>
 <hr/>
 
-**`Log and Trace`**: provides functionality to build and log messages of different severity to different sinks(e.g. network, a serial bus, the console, and to non-volatile storage).
+**`Log and Trace`**: provides functionality to build and log messages of different `severity` to different `sinks`(e.g. network, a serial bus, the console, and to non-volatile storage).
 - provide log stream for different severity level
 - configurable output format and sinks
 <figure>
@@ -110,15 +116,15 @@ Startup sequence: OS or hypervisor initialize then start the `Execution Manageme
 </figure>
 <hr/>
 
-**`Adaptive Platform Core`**: provide functionality for initialization and de-initialization of the AUTOSAR Runtime for Adaptive Applications as well as termination of Processes.
-- defines set of common data types used by multiple Functional Clusters as part of their public interfaces.
-- provides global initialization and shutdown functions that initialize respectively de-initialize data structures and threads of the AUTOSAR Runtime for Adaptive Applications.
-- general error handling, operation for abnormal termination of processes.  
+**`Adaptive Platform Core`**: provide functionality for `initialization` and `de-initialization` of the AUTOSAR Runtime for Adaptive Applications as well as termination of Processes.
+- defines set of `common data types` used by multiple Functional Clusters as part of their public interfaces.
+- provides `global initialization and shutdown functions` that initialize respectively de-initialize data structures and threads of the AUTOSAR Runtime for Adaptive Applications.
+- general `error handling`, operation for abnormal termination of processes.  
 
 <hr/>
 
 **`Operating System Interface`**: provide functionality for implementing multi-threaded real-time embedded applications and corresponds to the POSIX PSE51 profile
-> TBD: unclear, direct call from C namespace or additional wrapper layer code, any additional manage logic required? 
+> TBD: unclear, direct call from C namespace or additional wrapper layer code, any additional manage logic required?  
 <figure>
   <img src="/assets/img/blogs/2024_02_27/OS Interface.png" alt="OS Interface">
   <figcaption>OS Interface</figcaption>
@@ -126,8 +132,8 @@ Startup sequence: OS or hypervisor initialize then start the `Execution Manageme
 
 ### I.2 Communication
 **`Communication Management`**: responsible for all levels of service-oriented communication 
-between applications in a distributed real-time embedded environment. That is, intra-process 
-communication, inter-process communication and inter-machine communication.  
+between applications in a distributed real-time embedded environment. That is, `intra-process` 
+communication, `inter-process` communication and `inter-machine` communication.  
 - force to accept or to drop a message with or without performing the verification of authenticator or independent of the authenticator verification result.
 - obtain current freshness value for received/transmitted messages.
 <figure>
@@ -246,79 +252,109 @@ removing and keeping a record of the software installed in an entire vehicle.
 # II. Adaptive AUTOSAR Development Methodology
 > AUTOSAR_AP_TR_Methodology  
 
-**Development methodology** is a common technical approach (i.e. development steps and corresponding outputs) 
+**Development methodology** is a common technical approach (i.e. development steps and corresponding outputs). 
 Adaptive AUTOSAR development methodology is built upon the existed Classic Platform (an extension without re-invent the wheel).
 
 ### what are development activities?  
 
-*in term of software*  
+*<u>in term of software</u>*  
 **OEM**: define **vehicle** function architecture  
 **Tier1**: develop and **integrate** ECUs with CP, AP or mixed CP/AP or non-AUTOSAR  
 **Other supplier**: develop **platform** or specific **component** softwares  
 <figure>
-  <img src="/assets/img/blogs/2024_02_27/DevelopmentMethodology.png" alt="Development Methodology">
+  <img src="/assets/img/blogs/2024_02_27/DevelopmentMethodology.svg" alt="Development Methodology">
   <figcaption>Development Methodology</figcaption>
 </figure>
-Above figure shows a generic top-down approach methodology of Adaptive AUTOSAR development. As we can see, the development methodology on the OEM level is pretty much the same as in Classic AUTOSAR.  
+Above figure shows a generic top-down approach methodology of Adaptive AUTOSAR development.  
 
-The development methodology on ECU level is slightly different compare to Classic AUTOSAR in term of deployment. But the Adaptive Application development\[*application*\] and Machine configuration/integration\[*platform*\] are similar to development activities in Classic AUTOSAR(Application SWCs and BSW configuration/integration).  
+`In term of deployment`, on ECU level, Adaptive AUTOSAR is slightly different compare to Classic AUTOSAR. But for the development in general, the Adaptive Application development\[`application`\] and Machine configuration/integration\[`platform`\] are similar to development activities in Classic AUTOSAR(Application SWCs and BSW configuration/integration).  
 
 ### corresponding output artifacts?  
 
 So what is the output artifacts from above development activities? (i.e. data exchange between involved parties in the development process).  
+![output-artifact](/assets/img/blogs/2024_02_27/Output-Artifacts.svg)
+
 - `Analysis` and `Design` documentations as any other software development process.  
 - Same as Classic AUTOSAR, Adaptive AUTOSAR also use `arxml` as a main medium to exchange/describe data/design such as: description of software, network topology, network communication, configuration,...  
 - The `implementation` artifacts is practically the same as the `source code` is realized in C++ and the output `executables` are multiple application/platform-level binaries, which are `deployed as processes` in POSIX-runtime environment.  
-- For the `configuration`\[*manifest*\]: design manifest `arxml` i.e. configured step and corresponding deploy manfiest `(pre-compile)generated code, (post-build)json, runtime environment configured files` i.e. actual deployed data.  
+- For the `configuration`\[*manifest*\]: design manifest `arxml` i.e. configured step and corresponding deploy manfiest `(pre-compile)generated code`, `(post-build)json`, `runtime environment configured files` i.e. actual deployed data.  
 
 # III. Adaptive AUTOSAR concept
-> AUTOSAR_AP_TPS_ManifestSpecification, AUTOSAR_FO_EXP_SWArchitecturalDecisions, AUTOSAR_AP_EXP_PlatformDesign, AUTOSAR_AP_EXP_SWArchitecture  
+> AUTOSAR_FO_EXP_SWArchitecturalDecisions, AUTOSAR_AP_EXP_PlatformDesign, AUTOSAR_AP_EXP_SWArchitecture, AUTOSAR_AP_TPS_ManifestSpecification  
 
 ### design approach and implementation? 
 `Crucial concepts that needs to be understand` before design/implement Adaptive Platform: POSIX OS system call, kernel IPC, share memory mechanism, filesystem, processes, executable, thread, concurrency.  
 
 ⟹ The overall system and Adaptive Platform design approach: `Service-oriented-Architecture`  
-1. Each AA or AP FCs is **running in their own process**, provide their services via interfaces.  
-2. AP FCs provide services to AA and FCs via their library interfaces (i.e. ara = set of FCs public C++ APIs expose to AA via header/libs ).  
-3. AA shall not use IPC directly, the interaction between each other shall be done via Communication Management FC, which cover both intra and inter Machine communication.  
+1. Each AA or AP FCs is `running in their own process`, provide their `services via interfaces`.  
+2. AP FCs provide services to AA and other FCs via their `library interfaces` (i.e. ara = set of FCs public C++ APIs expose to AA via header/libs ).  
+3. Communication between AAs `shall not` be done by calling IPC directly, instead the interaction between each other shall be `done via Communication Management FC`, which cover both intra and inter Machine communication.  
 
 ![Adaptive AUTOSAR design/implementation](/assets/img/blogs/2024_02_27/AdaptiveAUTOSAR_design.png)
 **ARA**: consist of `application interfaces` provided by Adaptive Platform FCs  
 Implementation: reuse of existing standard such as STL  
 
+<figure>
+  <img src="/assets/img/blogs/2024_02_27/AdaptiveAUTOSAR_Design_Physical_Files.png" alt="Sample implementation source">
+  <figcaption>Sample Implementation Source Structure</figcaption>
+</figure>
+
 ### execution, service and machine manifest?
 Manifest mean a formal specification of `configuration content`, combination with other artifacts
-(like binary files) that contain executable code to which the Manifest applies to provide specific functionalities.
-Manifest of a FC could be distributed into multiple physical files:
-- during `design`: ARXML  
-- for the `deploy`: json, .conf, .h/.cpp  
+(like binary files) that contain executable code to which the Manifest applies to provide specific functionalities. 
+Manifest of a FC could be distributed into multiple physical files.  
 
+- during `design`: `manifest data` is stored in `arxml` files.   
+- for the `deploy`: `manifest data` could take the form of a Linux `config file(.conf)` to be loaded by kernel module or a `json file`, which is loaded by Adaptive AUTOSAR FC during runtime or `header/source(.h, .cpp)` configuration files to be included during build process same as AUTOSAR Classic.  
+
+![manifest_serialization](/assets/img/blogs/2024_02_27/manifest_serialization.svg)
 ⟹ step to change from `design Manifest` to `deploy Manifest` data call `SERIALIZATION`.  
 
 > In some case, it's best to deploy directly design Manifest ARXML file.
 
-⟹ `Manifest data` could take the form of a Linux config file(.conf) to be loaded by kernel module or a json file, which is loaded by Adaptive AUTOSAR FC during runtime or header/source(.h, .cpp) configuration files same as AUTOSAR Classic.  
-
 <hr/>
 
-`Application Manifest`: content describes all aspects of the deployment
-of an application, including - but not limited to - the startup configuration and the
-configuration of service-oriented communication endpoints on application level.  
+<figure>
+  <img src="/assets/img/blogs/2024_02_27/configuration_manifest.svg" alt="manifest category">
+  <figcaption>Manifest Categories</figcaption>
+</figure>
+
+`Application Manifest`: content describes all aspects of `the deployment
+of an application`, including - but not limited to - the `startup` configuration and the
+configuration of service-oriented `communication endpoints` on `application level`.  
+- software component and composition design
+- executable description
+- process design
 
 `Machine Manifest`: (per machine) runtime manifest that describe deployment-related content that applies to the configuration of `just the underlying machine`.  
 - network interface configuration.  
 - machine(ECU) available hardware resources, states.  
-
 ⟹ actual implementation should be a group of Manifest files for machine specific configuration
 
 `Service Manifest`: (per process) runtime manifest that describes how service-oriented communication on transport layer level is bound to endpoints in the application and (in some
 cases) platform software  
+- datatype for adaptive platform
+- service interface definition
 
 `Execution Manifest`: (per process) runtime manifest that specify the deployment-related
-information of applications running on the AUTOSAR adaptive platform. bundled with the actual executable code to support the integration of the executable code onto the machine, and keep the application software code as independent as possible from the deployment scenario.  
+information of applications running on the AUTOSAR adaptive platform, bundled with the actual executable code to support the integration of the executable code onto the machine, and keep the application software code as independent as possible from the deployment scenario.  
+- binding of executable to actual process and related attributes such as timing, priority, resources,..
+- start-up configuration and dependencies between processes and their states
 
 ### how adaptive AUTOSAR software deployment work?
+So after complete the implementation, you shall be the output artifacts:
+- AA, FC executables
+- their corresponding shared libs and external/public headers
+- their corresponding deployment manifest (.json, .conf)
 
-// TBD
+`Integration and deployment of software` (on the Adaptive Platform) refers to all
+activities that are necessary to make designated software run on a specific machine,
+determined by its hardware, connected networks, its operating system and (some)
+platform-level Adaptive Software.  
 
+**`How can you integrate/deploy these artifacts into machines environment?`**
+<figure>
+  <img src="/assets/img/blogs/2024_02_27/integrate_deploy_adaptive.svg" alt="integrate and deploy">
+  <figcaption>Adaptive AUTOSAR integration and deployment</figcaption>
+</figure>
 

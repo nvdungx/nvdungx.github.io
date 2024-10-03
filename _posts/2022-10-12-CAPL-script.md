@@ -391,7 +391,7 @@ testfunction testEnvPreparation() // prefix testfunction keyword
         <varset name="variant_no" variants="ECU_Premium">0</varset>
         <varset name="variant_no" variants="ECU_Basic">1</varset>
         <capltestfunction name="testEnvPreparation" title="Test environment preparation">
-          <caplparam name="variant" type="int"><var name="variant_no"/></caplparam> 
+          <caplparam name="variant" type="int"><var name="variant_no"></caplparam> 
         </capltestfunction>
     </preparation>
 
