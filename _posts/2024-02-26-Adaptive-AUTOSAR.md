@@ -342,7 +342,7 @@ information of applications running on the AUTOSAR adaptive platform, bundled wi
 - start-up configuration and dependencies between processes and their states
 
 ### how adaptive AUTOSAR software deployment work?
-So after complete the implementation, you shall be the output artifacts:
+So after complete the implementation, you shall have the following output artifacts:
 - AA, FC executables
 - their corresponding shared libs and external/public headers
 - their corresponding deployment manifest (.json, .conf)
