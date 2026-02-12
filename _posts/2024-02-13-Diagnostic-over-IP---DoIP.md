@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Diagnostic over IP - DoIP
+title: Diagnostic over IP(DoIP) Overview
 date: 2026-01-29 09:56:06
 categories: [automotive]
 tags: [intermediate, diagnostic]
@@ -28,7 +28,7 @@ Diagnostic function is utilized in multiple use-cases from the vehicle developme
 - service (franchised dealership, aftermarket repair shop)
 - legislated inspections (emissions check, safety inspections)
 
-⟹ DoIP shall cover different communication scenarios and possible network configurations (i.e. direct or indirect, 1:n(test equipment) to 1:n(doip instance)).  
+⟹ DoIP shall cover different communication scenarios and possible network configurations (i.e. direct or indirect, 1:n(test equipment) to 1:n(DoIP instance)).  
 
 <figure>
   <img src="/assets/img/blogs/2024_04_16/doip_network.svg" alt="DoIP network">
@@ -219,7 +219,7 @@ Three different vehicle identification request types allow diagnostic testers to
   <figcaption>Example of Vehicle Identification message sequence</figcaption>
 </figure>
 From above example diagram, we can see the main steps:
-- Ethernet interface link-up (Ethernet activation line to HIGH on ODB interface)
+- Ethernet interface link-up (Ethernet activation line to HIGH on OBD interface)
 - IP assignment (DHCP or static or AutoIP)
 - Vehicle DoIP entity broadcast their identity via Vehicle Identification Announcement
 - External Test Equipment enquiry Vehicle Identification by request if they miss the vehicle announcement
@@ -449,5 +449,5 @@ ISO 13400-3 specifies a dedicated **Activation Line** on the diagnostic connecto
 
 ---
 
-<b style="color:#009ddc;font-size:1.25rem">Summary:</b>
+<b style="color:#009ddc;font-size:1.25rem">Summary:</b>  
 In practical automotive development, most of DoIP implementation complexity reside in edge nodes. These include functionalities such as tester handling, processing diagnostics from multiple vehicle diagnostic interfaces (e.g. OBD and Wi-Fi), UDS firewall, gateway routing, and overall connection management. In contrast, other in-vehicle DoIP nodes can typically rely on a standardized DoIP software stack, which only needs configuration or minor adaptation to meet OEM-specific functional and performance requirements.
