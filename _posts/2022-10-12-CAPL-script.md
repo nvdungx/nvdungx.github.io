@@ -261,7 +261,7 @@ sysSetVariableDWord(sysvar::DoorFL::InternalData, 0x022);
 
 > CAPL ECU(CANoeIL) is a restbus simulation node(generated from DBC file, in which message/signals information of each nodes in the network are defined). It shall stimulate the message transmission on the bus, which we can update message signal value in test node and create stimulated input for the DUT.  
 >  
-> In case of your configuration is created manually, no CANoeIL simulation node and either with or without DBC, you have to implement the callback functions as a signal transmission/receive driver by your own if you want to manipulate signal as below.   
+> In case of your **configuration is created manually**, **no CANoeIL simulation** node and either with or without DBC, you **have to implement the callback functions as a signal transmission/receive driver** by your own if you want to manipulate signal as below.   
 
 {% highlight C %}
 // Database objects are identified with the following syntax

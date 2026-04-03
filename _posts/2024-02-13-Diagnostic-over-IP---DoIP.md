@@ -393,15 +393,15 @@ The alive check shall be done by DoIP vehicle node when receive routing activati
   <img src="/assets/img/blogs/2024_04_16/doip_n_socket.png" alt="DoIP session">
   <figcaption>DoIP node socket alive check</figcaption>
 </figure>
-Scenario Breakdown (Based on the diagram above):
-Context: The Vehicle DoIP node supports 2 concurrent diagnostic sessions but maintains 3 TCP sockets total (N+1).
-1. Sockets 1 and 3 are currently connected with active sessions. The limit (2) is reached.
-2. Socket 2 is free and listening for incoming connections.
-3. A new Tester (Tester 3) connects to Socket 2 and sends a Routing Activation Request.
-4. To determine if it can accept this new tester, the DoIP node performs an Alive Check on the existing connections (Sockets 1 and 3).
-5. Socket 1 fails to respond (e.g., the previous tester crashed or disconnected without a FIN). The DoIP node closes Socket 1 to free up the resource.
-6. The DoIP node now accepts the connection on Socket 2. Sockets 2 and 3 are now active. Socket 1 becomes the new listener.
-7.(Alternative): If both Socket 1 and Socket 3 had responded to the Alive Check, the node would be at full capacity. The Routing Activation on Socket 2 would be declined (typically with code 0x03 - Socket Registered/Active).
+Scenario Breakdown (Based on the diagram above):  
+Context: The Vehicle DoIP node supports 2 concurrent diagnostic sessions but maintains 3 TCP sockets total (N+1).  
+1. Sockets 1 and 3 are currently connected with active sessions. The limit (2) is reached.  
+2. Socket 2 is free and listening for incoming connections.  
+3. A new Tester (Tester 3) connects to Socket 2 and sends a Routing Activation Request.  
+4. To determine if it can accept this new tester, the DoIP node performs an Alive Check on the existing connections (Sockets 1 and 3).  
+5. Socket 1 fails to respond (e.g., the previous tester crashed or disconnected without a FIN). The DoIP node closes Socket 1 to free up the resource.  
+6. The DoIP node now accepts the connection on Socket 2. Sockets 2 and 3 are now active. Socket 1 becomes the new listener.  
+7.(Alternative): If both Socket 1 and Socket 3 had responded to the Alive Check, the node would be at full capacity. The Routing Activation on Socket 2 would be declined (typically with code 0x03 - Socket Registered/Active).  
 
 ⟹ When a connection is no longer required, the External Test Equipment should always close it gracefully using standard TCP FIN mechanisms. If the connection is not closed properly (e.g. cable pull), the DoIP entity will eventually free the resource either through the Alive Check process described above or via a general Inactivity Timer.
 

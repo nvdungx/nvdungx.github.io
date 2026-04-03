@@ -60,23 +60,23 @@ $1$2$3<ECUC-REFERENCE-VALUE>\r\n$3  <DEFINITION-REF DEST="ECUC-SYMBOLIC-NAME-REF
 
 After a few more encounters like this, I eventually stumbled upon **regular expression** and read some more advanced concept about it. Since then, Regex has become one of the most valuable skills I picked up in my early career.
 
-To someone who doesn't know about regex yet, above Find and Replace regex looks like random gibberish. But once you understand the logic behind it, it becomes a superpower for manipulating text, cleaning data, and automating the mundane. In this blog, we will explore the building blocks of Regex—from basic syntax for daily tasks to advanced techniques for niche use cases.
+To someone who doesn't know about regex yet, above Find and Replace regex looks like random gibberish. But once you understand the logic behind it, it becomes a superpower for manipulating text, cleaning data, and automating the mundane. In this blog, we will explore the building blocks of Regex, from basic syntax for daily tasks to advanced techniques for some unique use cases.
 
-## What is Regex?
-At its core, a Regular Expression is a **`specialized string that describes a search pattern`**. Think of "Find and Replace" but on steroids. While a standard search looks for exact matches, regex looks for *`patterns`*—like "any sequence of 5 digits followed by 1 capital letter."
+## I. What is Regex?
+At its core, a Regular Expression is a **`specialized string that describes a search pattern`**. Think of "Find and Replace" but on steroids. While a standard search looks for exact matches, regex looks for *`patterns`* such as "any sequence of 5 digits followed by 1 capital letter."
 
-## Why Bother Learning It?
+## II. Why Bother Learning It?
 1. **Efficiency:** Tasks that take hours of manual editing and inspection can be done in seconds.
-2. **Validation:** It’s the standard way to ensure user input (filepath, email, etc..) is formatted correctly.
-3. **Data Scraping:** Extracting specific information from massive logs or text files becomes trivial.
-4. **Universal:** Almost every language (Python, JavaScript, Java, C#) and text editor (VS Code, Vim, Sublime) have the library or function to support it.
+2. **Validation:** It’s the standard way to ensure user input (filepath, parameter, etc..) is formatted correctly.
+3. **Data Scraping:** Extracting specific information from massive logs or text files becomes extremely easy.
+4. **Universal:** Almost every programming language (Python, C++, C#, Matlab) and text editor (VS Code, Vim, Sublime) have the library or function to support it.
 
 ---
 
-## The Building Blocks: Basic Syntax
+## III. The Building Blocks & Basic Syntax
 First, you need to know the building block that form the foundation of any regex:
 
-### 1. Characters
+### III.1. Characters
 
 Regular expressions consist of two types of characters: **Metacharacters**, which have special meanings (e.g. `.`, `\`), and **Literals** (normal text), which match themselves.
 
@@ -92,7 +92,7 @@ Regular expressions consist of two types of characters: **Metacharacters**, whic
 | `\`                      | Escape            | If you want to match a meta characters like `.`, `$`, `[`, `]`, `(`, `)` or `\` as literal characters, you put a backslash before it. <br/>  Example: `\$` matches a literal `$`, and `\.` matches a literal `.`, and `\(\)` matches literal `()` <br/><br/> Another special usage is to back reference, as we can use `\`{index} to reference the matches in `()` group <br/>  Example: regex `(first|1st).*(<H[1-3]>)\2` then the `\2` is refer to 2nd matches unit `<H[1-3]>` in the current regex |
 | `|` | Alternation | Combine multiple expressions into a single expression that matches any of the individual ones <br/>  Example: `(first|First|1st)` matches `first` or `First` or `1st` ; `gr(a|e)y` match either `gray` or `grey`|
 
-### 2. Quantifier
+### III.2. Quantifier
 Quantifiers specify how many times the **preceding** character, group, or character class should occur.
 
 | Symbol       | Repetition | Description |
@@ -104,7 +104,7 @@ Quantifiers specify how many times the **preceding** character, group, or charac
 
 NOTE: `?` is consider as lazy matching and other quantifier(`+` `*`) are greedy match. Refer to advanced section for it usage.
 
-### 3. Anchor
+### III.3. Anchor
 Anchors do not match actual characters. Instead, they match **positions** within the text.
 
 | Symbol | Name | Description |
@@ -113,7 +113,7 @@ Anchors do not match actual characters. Instead, they match **positions** within
 | `$` | Dollar | Matches the **end** of the line or string. <br/> Example: `End$` matches "End" only at the very end. <br/><br/> NOTE:`$` act similar as `\` in case of referencing i.e. refer to unit group of the matched regex `$1`, `$2` |
 | `\b` | Word Boundary | (As mentioned above) Matches the start or end of a word. <br/> Example: `\bcan\b` matches the word "can" but not "canvas" or "scan". |
 
-### Now combine all of them  
+### III.4. Now combine all of them  
 
 The table above covers the core syntax, but the magic comedown on how you combine these pieces to solve specific problems. Let’s look at a possible scenario in actual project.  
 Imagine you are analyzing a UART log from a Gateway ECU. The log spans several days of operation, and you need to find all security-related logs (`SEC:`) from **February 9, 2026**, specifically where a request was made to **ECU 0x1121**: 
@@ -134,14 +134,14 @@ Imagine you are analyzing a UART log from a Gateway ECU. The log spans several d
 2026-02-13 01:35:31.086513 SEC:Request security access level 0x11 to ECU 0x1121.
 {% endhighlight %}
 
-#### The Regex Solution:
+#### Solution:
 To match this specific pattern, we can build the following expression:
 
 {% highlight regex %}
 ^2026-02-09.*SEC:.*ECU 0x1121.*$
 {% endhighlight %}
 
-#### Breaking Down the Logic:
+#### Breaking Down Logic:
 *   `^2026-02-09` : We use the **Caret (Anchor)** to ensure the line starts exactly with our target date.
 *   `.*` : The **Wildcard and Greedy Quantifier** combo tells the engine to skip everything until find the follow-up pattern in the regex"
 *   `SEC:` : A **Literal** match to filter only the security module entries.
@@ -153,10 +153,10 @@ To match this specific pattern, we can build the following expression:
 
 ---
 
-## Leveling Up: The Advanced Usage
+## IV. The Advanced Usage
 Once you have mastered the basic building blocks, you will eventually run into complex problems—like parsing nested XML or extracting data from messy logs—where simple matching isn't enough. This is where the advanced logic of the regex engine comes into play.
 
-#### 1. Groups and Capturing `()`
+### IV.1. Groups and Capturing `()`
 Parentheses serve **2 purposes**: they group parts of a pattern together and they **capture** the text that matches that group into a "memory slot", which can be referenced directly in current regex pattern or later(i.e. post matched/replaced operation)
 *   **Grouping:** `(abc)+` matches "abc", "abcabc", "abcabcabc",... <- adjacent `abc` and repeated more than one
 *   **Capturing:** If you have `(\d{2})-(\d{2})-(\d{4})` to match the dd-mm-yyyy, the regex engine remembers the day in Group 1, month in Group 2, and year in Group 3. You can then "recall" these in your code or replacement string using `$1` or `$2` or `$3` or backreference to them in the same searching regex as `\1`, `\2` or `\3`.
@@ -182,7 +182,7 @@ Above image is use cases where I find all the  `<TEST-REQUESTS>` container in a 
 
 Another common use case is to check for duplicated word by `\b(\w+)\s+\1\b`.  
 
-#### 2. Greedy vs. Lazy Matching
+### IV.2. Greedy vs Lazy Matching
 In above regex example you can see a weird part in the regex `[\s\S]*?`.  
 - `[\s\S]`: just a quick way to match any character, including newlines/line breaks, because I want to get everything between xml TAG that spread multiple line
 - `*?`: why optional quantifier `?` after a quantifier `*`. In this case, it called `lazy quantifier`
@@ -199,7 +199,7 @@ Example, in 2nd regex `<.*?>`, adding the lazy quantifier make the regex match a
 
 ---
 
-## Final Thoughts
+## V. Final Thought
 You are not required to be an expert in regular expression and create most efficient regex for every issue. A basic understanding of how regex works and when to apply it is already enough to dramatically simplify your daily work.  
 A very good site where you can learn and test your regex with detailed, real‑time explanations: [regex101.com](https://regex101.com/).  
 
